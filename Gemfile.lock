@@ -4,6 +4,7 @@ GEM
     ast (2.3.0)
     coderay (1.1.1)
     method_source (0.8.2)
+    parallel (1.9.0)
     parser (2.3.1.2)
       ast (~> 2.2)
     pry (0.10.4)
@@ -24,6 +25,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  parallel
   parser
   pry
   sinatra

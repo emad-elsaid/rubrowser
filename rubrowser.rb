@@ -2,6 +2,8 @@ require 'rubygems'
 require 'bundler/setup'
 Bundler.require(:default)
 
+FILE_SIZE_LIMIT = 2 * 1024 * 1024
+
 vertices = Set.new
 edges = Set.new
 
@@ -37,18 +39,16 @@ def const_to_array(node)
 end
 
 def parse_file(file)
-  puts "parsing #{file}"
-  if !File.symlink?(file) && File.file?(file)
+  if !File.symlink?(file) && File.file?(file) && File.size(file) <= FILE_SIZE_LIMIT
     file_handle = File.open(file)
     code = file_handle.read
     file_handle.close
     ast = Parser::CurrentRuby.parse(code)
     parse_block ast
   elsif File.directory?(file)
-    Dir.open(file) do |dir|
-      Dir.glob(File.join(file, '**', '*.rb')).each do |file_path|
-        parse_file(file_path)
-      end
+    files = Dir.glob(File.join(file, '**', '*.rb'))
+    Parallel.each(files) do |file_path|
+      parse_file(file_path)
     end
   end
 end
