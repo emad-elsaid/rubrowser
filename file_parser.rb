@@ -15,9 +15,8 @@ class FileParser
         ast = Parser::CurrentRuby.parse(code)
         self.definitions = parse_block(ast)
       end
-    else
-      []
     end
+    self
   end
 
   def file_valid?(file)

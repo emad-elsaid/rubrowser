@@ -1,20 +1,16 @@
 $LOAD_PATH.unshift File.dirname(__FILE__)
 
-require 'rubygems'
 require 'bundler/setup'
 Bundler.require(:default)
 
+require 'parser_factory'
 require 'file_parser'
 require 'directory_parser'
 require 'tree'
 
 puts 'Reading files...'
 parsers = ARGV.map do |file|
-  if File.file?(file)
-    FileParser.new(file)
-  elsif File.directory?(file)
-    DirectoryParser.new(file)
-  end
+  ParserFactory.build(file)
 end
 
 count = parsers.map(&:count).reduce(:+)

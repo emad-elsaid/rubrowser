@@ -1,4 +1,5 @@
 require 'file_parser'
+require 'parser_factory'
 
 class DirectoryParser
   attr_reader :directory
@@ -10,7 +11,8 @@ class DirectoryParser
   end
 
   def parse
-    parsers.each(&:parse)
+    self.parsers = Parallel.map(parsers) { |parser| parser.parse }
+    self
   end
 
   def definitions
@@ -28,11 +30,7 @@ class DirectoryParser
   def read
     files = Dir.glob(File.join(directory, '**', '*.rb'))
     self.parsers = Parallel.map(files) do |file|
-      if File.file?(file)
-        FileParser.new(file)
-      elsif File.directory?(file)
-        DirectoryParser.new(file)
-      end
+      ParserFactory.build(file)
     end.compact
   end
 end
