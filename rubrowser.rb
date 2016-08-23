@@ -19,10 +19,13 @@ puts "#{count} Files were found."
 puts 'Parsing files...'
 parsers.each(&:parse)
 
-puts 'Getting definitions and converting to tree...'
-names = parsers.map(&:definitions).reduce(:+)
+puts 'Getting definitions...'
+definitions = parsers.map(&:definitions).reduce(:+).uniq
+puts "#{definitions.count} definitions were found."
+
+puts 'Converting to a tree...'
 constants_tree = Tree.new(nil)
-names.each { |name| constants_tree.add_child(name) }
+definitions.each { |definition| constants_tree.add_child(definition) }
 
 require 'yaml'
 puts constants_tree.to_h.to_yaml
