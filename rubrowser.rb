@@ -9,9 +9,7 @@ require 'parser/file'
 require 'parser/directory'
 require 'd3'
 require 'tree'
-require 'yaml'
 require 'json'
-
 parsers = ARGV.map do |file|
   Parser::Factory.build(file)
 end
