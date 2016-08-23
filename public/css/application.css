@@ -1,0 +1,13 @@
+html, body{
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+.dependency_graph, .dependency_graph svg{
+    width: 100%;
+    height: 100%;
+}
+.dependency_graph svg line{
+    stroke: #888;
+}

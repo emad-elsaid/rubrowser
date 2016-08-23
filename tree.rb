@@ -1,5 +1,5 @@
 class Tree
-  attr_reader :value, :children, :occurences, :parent
+  attr_reader :name, :children, :occurences, :parent
 
   def self.from_parsers(parsers)
     return Tree.new if parsers.empty?
@@ -12,16 +12,16 @@ class Tree
     end
   end
 
-  def initialize(value = nil, parent = nil)
-    @value = value
+  def initialize(name = '(Global)', parent = nil)
+    @name = name
     @parent = parent
     @children = Set.new
     @occurences = Set.new
   end
 
   def id
-    return value if parent.nil? || parent.id.nil?
-    "#{parent.id}::#{value}".to_sym
+    return name if parent.nil? || parent.id.nil?
+    "#{parent.id}::#{name}".to_sym
   end
 
   def add_child(child_name_path = [])
@@ -40,22 +40,23 @@ class Tree
 
   def find_node(path)
     return self if path.empty?
-    child = children.find { |c| c.value == path.first }
+    child = children.find { |c| c.name == path.first }
     return unless child
     child.find_node(path[1..-1])
   end
 
   def get_or_create_child(child_name)
-    children.find { |child| child_name == child.value } || Tree.new(child_name, self)
+    children.find { |child| child_name == child.name } || Tree.new(child_name, self)
   end
 
   def eq?(other)
-    other.value == value
+    other.name == name
   end
 
   def to_h
     {
-      const: value
+      id: id,
+      name: name
     }.tap do |hash|
       hash[:children] = children.map(&:to_h) unless children.empty?
       hash[:occurences] = occurences.map(&:id) unless occurences.empty?
