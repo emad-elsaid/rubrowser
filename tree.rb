@@ -12,7 +12,7 @@ class Tree
     end
   end
 
-  def initialize(name = '(Global)', parent = nil)
+  def initialize(name = 'Kernel', parent = nil)
     @name = name
     @parent = parent
     @children = Set.new
