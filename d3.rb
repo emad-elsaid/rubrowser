@@ -23,12 +23,13 @@ class D3
 
   def node_occurences(node)
     occurences = []
-    unless node.parent.nil?
+    unless node.parent.nil? || node.parent.parent.nil?
       occurences << { source: node.id, target: node.parent.id }
     end
 
     occurences += node.children.map { |n| node_occurences(n) }.reduce(:+).to_a
 
+    occurences += node.occurences.map { |n| {source: node.id, target: n.id } }.to_a
     occurences
   end
 end
