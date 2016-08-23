@@ -20,4 +20,11 @@ class Tree
   def eq?(other)
     other.value == value
   end
+
+  def to_h
+    {
+      const: value,
+      children: children.map(&:to_h)
+    }
+  end
 end
