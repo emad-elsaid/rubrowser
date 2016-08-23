@@ -4,7 +4,7 @@ a visualizer for ruby code (rails or otherwise), it analyze your code and extrac
 
 this project is so small that the visualization looks like so
 
-![rubrowser visualization](http://i.imgur.com/diDhcDm.png)
+![rubrowser visualization](http://i.imgur.com/Lzjfbdk.png)
 
 
 ## Usage
