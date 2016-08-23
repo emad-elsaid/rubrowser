@@ -1,7 +1,14 @@
 class Tree
   attr_reader :value, :children
 
-  def initialize(value)
+  def self.from_parsers(parsers)
+    definitions = parsers.map(&:definitions).reduce(:+).uniq
+    Tree.new.tap do |tree|
+      definitions.each { |definition| tree.add_child(definition) }
+    end
+  end
+
+  def initialize(value = nil)
     @value = value
     @children = Set.new
   end
@@ -24,7 +31,8 @@ class Tree
   def to_h
     {
       const: value,
-      children: children.map(&:to_h)
-    }
+    }.tap do |hash|
+      hash[:children] = children.map(&:to_h) unless children.empty?
+    end
   end
 end

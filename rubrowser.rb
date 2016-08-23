@@ -24,8 +24,7 @@ definitions = parsers.map(&:definitions).reduce(:+).uniq
 puts "#{definitions.count} definitions were found."
 
 puts 'Converting to a tree...'
-constants_tree = Tree.new(nil)
-definitions.each { |definition| constants_tree.add_child(definition) }
+tree = Tree.from_parsers(parsers)
 
 require 'yaml'
-puts constants_tree.to_h.to_yaml
+puts tree.to_h.to_yaml

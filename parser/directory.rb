@@ -17,7 +17,7 @@ module Parser
     end
 
     def definitions
-      parsers.map(&:definitions).reduce(:+) || []
+      parsers.map(&:definitions).map(&:to_a).reduce(:+) || []
     end
 
     def count
