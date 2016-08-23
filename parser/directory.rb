@@ -20,6 +20,10 @@ module Parser
       parsers.map(&:definitions).map(&:to_a).reduce(:+) || []
     end
 
+    def occurences
+      parsers.map(&:occurences).map(&:to_a).reduce(:+) || []
+    end
+
     def count
       parsers.map(&:count).reduce(:+)
     end
