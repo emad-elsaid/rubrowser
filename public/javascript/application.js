@@ -6,6 +6,7 @@ var ParseGraph = function(){
     return false;
   }
 
+
   var width = $svg.width(),
       height = $svg.height(),
       constants = JSON.parse(svg.attr('data-constants')),
@@ -17,13 +18,21 @@ var ParseGraph = function(){
         .on("drag", dragged)
         .on("end", dragended);
 
+
+  svg.call(d3.zoom().on("zoom", function () {
+    container.attr("transform", d3.event.transform);
+  }));
+
+  container = svg.append('g');
+
+
   var simulation = d3.forceSimulation()
         .force("link", d3.forceLink().id(function(d) { return d.id; }))
         .force("charge", d3.forceManyBody())
         .force("center", d3.forceCenter(width / 2, height / 2))
         .force("forceCollide", d3.forceCollide(function(){ return 80; }));
 
-  var link = svg.append("g")
+  var link = container.append("g")
         .attr("class", "links")
         .selectAll("path")
         .data(occurences)
@@ -31,21 +40,21 @@ var ParseGraph = function(){
         .attr("class", 'link')
         .attr("marker-end", "url(#occurence)");
 
-  var circle = svg.append("g").selectAll("circle")
+  var circle = container.append("g").selectAll("circle")
         .data(constants)
         .enter().append("circle")
         .attr("r", 6)
         .on("dblclick", dblclick)
         .call(drag);
 
-  var text = svg.append("g").selectAll("text")
+  var text = container.append("g").selectAll("text")
         .data(constants)
         .enter().append("text")
         .attr("x", 8)
         .attr("y", ".31em")
         .text(function(d) { return d.id; });
 
-  svg.append("defs").selectAll("marker")
+  container.append("defs").selectAll("marker")
     .data(['occurence'])
     .enter().append("marker")
     .attr("id", function(d) { return d; })
