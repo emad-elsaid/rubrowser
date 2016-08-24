@@ -43,7 +43,7 @@ var ParseGraph = function(){
         .enter().append("text")
         .attr("x", 8)
         .attr("y", ".31em")
-        .text(function(d) { return d.name; });
+        .text(function(d) { return d.id; });
 
   svg.append("defs").selectAll("marker")
     .data(['occurence'])

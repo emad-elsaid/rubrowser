@@ -19,8 +19,12 @@ class Tree
     @occurences = Set.new
   end
 
+  def root?
+    @parent.nil?
+  end
+
   def id
-    return name if parent.nil? || parent.id.nil?
+    return name if root? || parent.root?
     "#{parent.id}::#{name}".to_sym
   end
 
