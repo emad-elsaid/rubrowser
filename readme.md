@@ -16,7 +16,7 @@ bundle install
 ruby rubrowser.rb /path/of/project/or/file
 ```
 
-it'll analyze the project and open port 3000, so you can access the graph from `localhost:3000`
+it'll analyze the project and open port 9000, so you can access the graph from `localhost:9000`
 
 ## Tests?
 
