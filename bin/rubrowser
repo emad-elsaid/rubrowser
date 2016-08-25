@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
-require 'bundler/setup'
-Bundler.require(:default)
+$LOAD_PATH.push File.expand_path('../../lib', __FILE__)
 
 require 'server'
 Rubrowser::Server.start
