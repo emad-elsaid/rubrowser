@@ -30,6 +30,7 @@ it'll analyze the project and open port 9000, so you can access the graph from `
 * interactive graph, you can pull any node to fix it to some position
 * to release node double click on it
 * zoom and pan with mouse or touch pad
+* highlight node and all related nodes, it'll make it easier for you to see what depends and dependencies of certain class
 
 
 ## Tests?

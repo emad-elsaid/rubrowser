@@ -115,6 +115,32 @@ var ParseGraph = function(){
     return "translate(" + d.x + "," + d.y + ")";
   }
 
+
+  node.on('mouseover', function(d) {
+    var relatives = [];
+    link.style('opacity', function(l) {
+      if (d === l.source || d === l.target){
+        relatives.push(l.source);
+        relatives.push(l.target);
+        return 1;
+      }else{
+        return 0.1;
+      }
+    });
+    node.style('opacity', function(n) {
+      if( n == d || relatives.indexOf(n) > -1 ){
+        return 1;
+      }else{
+        return 0.1;
+      }
+    });
+  });
+
+  node.on('mouseout', function() {
+    link.style('opacity', 1);
+    node.style('opacity', 1);
+  });
+
   return true;
 
 };
