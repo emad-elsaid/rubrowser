@@ -9,7 +9,7 @@ module Rubrowser
 
       def initialize(file)
         @file = file
-        @definitions = Set.new
+        @definitions = []
         @occurences = []
       end
 
@@ -19,24 +19,19 @@ module Rubrowser
             code = f.read
             ast = ::Parser::CurrentRuby.parse(code)
             constants = parse_block(ast)
-            self.definitions = constants[:definitions].uniq
-            self.occurences = constants[:occurences].uniq
+            @definitions = constants[:definitions].uniq
+            @occurences = constants[:occurences].uniq
           end
         end
-        self
       end
 
       def file_valid?(file)
-        !::File.symlink?(file) && ::File.file?(file) && ::File.size(file) <= FILE_SIZE_LIMIT
-      end
-
-      def count
-        1
+        !::File.symlink?(file) &&
+          ::File.file?(file) &&
+          ::File.size(file) <= FILE_SIZE_LIMIT
       end
 
       private
-
-      attr_writer :definitions, :occurences
 
       def parse_block(node, parents = [])
         return { definitions: [], occurences: [] } unless node.is_a?(::Parser::AST::Node)
@@ -85,10 +80,10 @@ module Rubrowser
         { definitions: [], occurences: constants }
       end
 
-      def merge_constants(constants1, constants2)
+      def merge_constants(c1, c2)
         {
-          definitions: constants1[:definitions] + constants2[:definitions],
-          occurences: constants1[:occurences] + constants2[:occurences]
+          definitions: c1[:definitions] + c2[:definitions],
+          occurences: c1[:occurences] + c2[:occurences]
         }
       end
 

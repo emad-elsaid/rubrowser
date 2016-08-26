@@ -1,10 +1,12 @@
 require 'webrick'
-require 'haml'
 require 'data'
 require 'json'
+require 'erb'
 
 module Rubrowser
   class Server < WEBrick::HTTPServer
+    include ERB::Util
+
     def self.start(paths)
       new(paths).start
     end
@@ -28,12 +30,7 @@ module Rubrowser
 
     def root(path)
       return file(path) if file?(path)
-
-      haml :index,
-           locals: {
-             constants: data.constants,
-             occurences: data.occurences
-           }
+      erb :index
     end
 
     def file?(path)
@@ -45,11 +42,10 @@ module Rubrowser
       File.read(resolve_file_path("/public#{path}"))
     end
 
-    def haml(template, options = {})
-      path = resolve_file_path("/views/#{template}.haml")
+    def erb(template)
+      path = resolve_file_path("/views/#{template}.erb")
       file = File.open(path).read
-      locals = options.delete(:locals) || {}
-      Haml::Engine.new(file, options).render(self, locals)
+      ERB.new(file).result binding
     end
 
     def resolve_file_path(path)

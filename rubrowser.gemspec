@@ -16,6 +16,4 @@ Gem::Specification.new do |s|
   s.executables << 'rubrowser'
 
   s.add_runtime_dependency 'parser', '~> 2.3', '>= 2.3.0'
-  s.add_runtime_dependency 'parallel', '~> 1.9', '>= 1.9.0'
-  s.add_runtime_dependency 'haml', '~> 4.0', '>= 4.0.0'
 end

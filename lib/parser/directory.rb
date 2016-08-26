@@ -1,6 +1,3 @@
-require 'parser/factory'
-require 'parallel'
-
 module Rubrowser
   module Parser
     class Directory
@@ -8,37 +5,25 @@ module Rubrowser
 
       def initialize(directory)
         @directory = directory
-        @parsers = []
-        read
+        files = Dir.glob(::File.join(directory, '**', '*.rb'))
+        @parsers = files.map { |f| File.new(f) }
       end
 
       def parse
-        self.parsers = Parallel.map(parsers){ |parser| parser.parse }
-        self
+        parsers.each(&:parse)
       end
 
       def definitions
-        parsers.map(&:definitions).map(&:to_a).reduce(:+) || []
+        parsers.map(&:definitions).map(&:to_a).reduce(:+)
       end
 
       def occurences
-        parsers.map(&:occurences).map(&:to_a).reduce(:+) || []
-      end
-
-      def count
-        parsers.map(&:count).reduce(:+)
+        parsers.map(&:occurences).map(&:to_a).reduce(:+)
       end
 
       private
 
-      attr_accessor :parsers
-
-      def read
-        files = Dir.glob(::File.join(directory, '**', '*.rb'))
-        self.parsers = Parallel.map(files) do |file|
-          Factory.build(file)
-        end.compact
-      end
+      attr_reader :parsers
     end
   end
 end
