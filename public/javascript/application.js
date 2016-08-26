@@ -6,31 +6,37 @@ var ParseGraph = function(){
     return false;
   }
 
-
   var width = $svg.width(),
       height = $svg.height(),
       constants = JSON.parse(svg.attr('data-constants')),
-      occurences = JSON.parse(svg.attr('data-occurences'));
-  var color = d3.scaleOrdinal(d3.schemeCategory20);
-
-  var drag = d3.drag()
+      occurences = JSON.parse(svg.attr('data-occurences')),
+      drag = d3.drag()
         .on("start", dragstarted)
         .on("drag", dragged)
         .on("end", dragended);
 
+  var zoom = d3.zoom()
+        .on("zoom", function () {
+          container.attr("transform", d3.event.transform);
+        });
 
-  svg.call(d3.zoom().on("zoom", function () {
-    container.attr("transform", d3.event.transform);
-  }));
+  svg.call(zoom)
+    .on("dblclick.zoom", null);
 
-  container = svg.append('g');
-
+  var container = svg.append('g');
 
   var simulation = d3.forceSimulation()
         .force("link", d3.forceLink().id(function(d) { return d.id; }))
         .force("charge", d3.forceManyBody())
         .force("center", d3.forceCenter(width / 2, height / 2))
         .force("forceCollide", d3.forceCollide(function(){ return 80; }));
+
+  simulation
+    .nodes(constants)
+    .on("tick", ticked);
+
+  simulation.force("link")
+    .links(occurences);
 
   var link = container.append("g")
         .attr("class", "links")
@@ -40,16 +46,20 @@ var ParseGraph = function(){
         .attr("class", 'link')
         .attr("marker-end", "url(#occurence)");
 
-  var circle = container.append("g").selectAll("circle")
+  var node = container.append("g")
+        .attr("class", "nodes")
+        .selectAll("g")
         .data(constants)
-        .enter().append("circle")
-        .attr("r", 6)
-        .on("dblclick", dblclick)
-        .call(drag);
+        .enter().append("g")
+        .call(drag)
+        .on("dblclick", dblclick);
 
-  var text = container.append("g").selectAll("text")
-        .data(constants)
-        .enter().append("text")
+  var circle = node
+        .append("circle")
+        .attr("r", 6);
+
+  var text = node
+        .append("text")
         .attr("x", 8)
         .attr("y", ".31em")
         .text(function(d) { return d.id; });
@@ -67,29 +77,21 @@ var ParseGraph = function(){
     .append("path")
     .attr("d", "M0,-5L10,0L0,5");
 
-  simulation
-      .nodes(constants)
-      .on("tick", ticked);
-
-  simulation.force("link")
-      .links(occurences);
-
   function ticked() {
     link.attr("d", linkArc);
-    circle.attr("transform", transform);
-    text.attr("transform", transform);
+    node.attr("transform", transform);
   }
 
   function linkArc(d) {
     var dx = d.target.x - d.source.x,
         dy = d.target.y - d.source.y,
-        dr =  0; // Math.sqrt(dx * dx + dy * dy);
+        dr =  0;
     return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
   }
 
   function dragstarted(d) {
     if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-    d3.select(this).classed("fixed", true );
+    d3.select(this).classed("fixed", true);
     d.fx = d.x;
     d.fy = d.y;
   }
@@ -104,8 +106,7 @@ var ParseGraph = function(){
   }
 
   function dblclick(d) {
-    var node = d3.select(this);
-    node.classed("fixed", false);
+    d3.select(this).classed("fixed", false);
     d.fx = null;
     d.fy = null;
   }
