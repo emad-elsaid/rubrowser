@@ -4,12 +4,8 @@ require 'd3'
 
 module Rubrowser
   class Data
-    def self.instance
-      @_instance ||= new
-    end
-
-    def initialize
-      @files = ARGV
+    def initialize(paths)
+      @files = paths
       @parsed = false
     end
 

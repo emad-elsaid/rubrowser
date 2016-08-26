@@ -23,6 +23,12 @@ gem install rubrowser
 rubrowser /path/to/project/or/file
 ```
 
+or you can just visualize current directory
+
+```
+rubrowser
+```
+
 it'll analyze the project and open port 9000, so you can access the graph from `localhost:9000`
 
 ## Features
