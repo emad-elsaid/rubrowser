@@ -14,7 +14,7 @@ the idea is that the project opens every `.rb` file and parse it with `parser` g
 * if you reference a class that is not defined in your project it won't be in the graph, we only display the graph of classes/modules you defined
 * the server analyze your code once upon the script starts if you changed your code you'll have to restart rubrowser
 * it statically analyze the code so meta programming is out of question in here
-* rails associations are meta programming to forget it :smile:
+* rails associations are meta programming so forget it :smile:
 
 ## Usage
 
