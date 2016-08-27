@@ -8,7 +8,7 @@ this project is so small that the visualization looks like so
 
 ![rubrowser visualization](http://i.imgur.com/O2tbOJZ.png)
 
-the idea is that the project opens every `.rb` file and parse it with `parser` gem then list all modules and classes definitions, and all constants that are listed inside this module/class and link them together, there are couple things you need to keep in mind:
+the idea is that the project opens every `.rb` file and parse it with `parser` gem then list all modules and classes definitions, and all constants that are listed inside this module/class and link them together.
 
 Here are some output examples
 
@@ -17,6 +17,8 @@ Here are some output examples
 | rack-1.6.4/lib      | ![rake](http://i.imgur.com/4UsCo0a.png) |
 | actioncable-5.0.0/lib      | ![acioncable](http://i.imgur.com/Q0Xqjsz.png) |
 | railties-5.0.0/lib      | ![railties](http://i.imgur.com/31g10a1.png) |
+
+there are couple things you need to keep in mind:
 
 * if your file doesn't have a valid ruby syntax it won't be parsed and will cause the gem to stop
 * if you reference a class that is not defined in your project it won't be in the graph, we only display the graph of classes/modules you defined
