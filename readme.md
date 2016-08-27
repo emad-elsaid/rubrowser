@@ -16,20 +16,28 @@ the idea is that the project opens every `.rb` file and parse it with `parser` g
 * it statically analyze the code so meta programming is out of question in here
 * rails associations are meta programming so forget it :smile:
 
-## Usage
+## Installation
+
 
 ```
 gem install rubrowser
-rubrowser /path/to/project/or/file
 ```
 
-or you can just visualize current directory
+## Usage
 
+
+```
+Usage: bin/rubrowser [options] [file] ...
+    -p, --port=PORT                  Specify port number for server, default = 9000
+    -v, --version                    Print Rubrowser version
+    -h, --help                       Prints this help
+```
+
+if you run it without any options
 ```
 rubrowser
 ```
-
-it'll analyze the project and open port 9000, so you can access the graph from `localhost:9000`
+it'll analyze the current directory and open port 9000, so you can access the graph from `localhost:9000`
 
 ## Features
 

@@ -7,14 +7,14 @@ module Rubrowser
   class Server < WEBrick::HTTPServer
     include ERB::Util
 
-    def self.start(paths)
-      new(paths).start
+    def self.start(options = {})
+      new(options).start
     end
 
-    def initialize(paths)
-      super Port: 9000
+    def initialize(options)
+      super Port: options[:port]
 
-      @data = Rubrowser::Data.new(paths)
+      @data = Rubrowser::Data.new(options[:files])
       @data.parse
 
       mount_proc '/' do |req, res|
