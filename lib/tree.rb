@@ -5,8 +5,8 @@ module Rubrowser
     def self.from_parsers(parsers)
       return Tree.new if parsers.empty?
 
-      definitions = parsers.map(&:definitions).reduce(:+).uniq
-      occurences = parsers.map(&:occurences).reduce(:+).uniq
+      definitions = parsers.map(&:definitions).reduce([], :+).uniq
+      occurences = parsers.map(&:occurences).reduce([], :+).uniq
       Tree.new.tap do |tree|
         definitions.each { |definition| tree.add_child(definition) }
         occurences.each { |occurence| tree.add_occurence(*occurence.first) }

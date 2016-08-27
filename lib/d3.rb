@@ -24,7 +24,7 @@ module Rubrowser
 
     def node_occurences(node)
       occurences = []
-      occurences += node.children.map { |n| node_occurences(n) }.reduce(:+).to_a
+      occurences += node.children.map { |n| node_occurences(n) }.reduce([], :+)
 
       occurences += node.occurences.map { |n| {source: node.id, target: n.id } }.to_a
       occurences

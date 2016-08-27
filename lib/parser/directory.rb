@@ -14,11 +14,11 @@ module Rubrowser
       end
 
       def definitions
-        parsers.map(&:definitions).map(&:to_a).reduce(:+)
+        parsers.map(&:definitions).map(&:to_a).reduce([], :+)
       end
 
       def occurences
-        parsers.map(&:occurences).map(&:to_a).reduce(:+)
+        parsers.map(&:occurences).map(&:to_a).reduce([], :+)
       end
 
       private
