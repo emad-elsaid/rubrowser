@@ -23,6 +23,8 @@ module Rubrowser
             @occurences = constants[:occurences].uniq
           end
         end
+      rescue ::Parser::SyntaxError
+        warn "SyntaxError in #{file}"
       end
 
       def file_valid?(file)
