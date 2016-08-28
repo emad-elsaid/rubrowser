@@ -1,16 +1,8 @@
-html, body{
+html, body, .dependency_graph, .dependency_graph svg{
     width: 100%;
     height: 100%;
     padding: 0px;
     margin: 0px;
-}
-.dependency_graph, .dependency_graph svg{
-    width: 100%;
-    height: 100%;
-}
-
-line{
-    stroke: #888;
 }
 
 .link {
