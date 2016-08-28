@@ -15,13 +15,12 @@ module Rubrowser
 
       def parse
         if file_valid?(file)
-          ::File.open(file) do |f|
-            code = f.read
-            ast = ::Parser::CurrentRuby.parse(code)
-            constants = parse_block(ast)
-            @definitions = constants[:definitions].uniq
-            @occurences = constants[:occurences].uniq
-          end
+          code = ::File.read(file)
+          ast = ::Parser::CurrentRuby.parse(code)
+          constants = parse_block(ast)
+
+          @definitions = constants[:definitions].uniq
+          @occurences = constants[:occurences].uniq
         end
       rescue ::Parser::SyntaxError
         warn "SyntaxError in #{file}"
@@ -36,7 +35,7 @@ module Rubrowser
       private
 
       def parse_block(node, parents = [])
-        return { definitions: [], occurences: [] } unless node.is_a?(::Parser::AST::Node)
+        return empty_result unless node.is_a?(::Parser::AST::Node)
 
         case node.type
         when :module
@@ -49,7 +48,7 @@ module Rubrowser
           node
             .children
             .map { |n| parse_block(n, parents) }
-            .reduce { |a, e| merge_constants(a, e) } || { definitions: [], occurences: [] }
+            .reduce { |a, e| merge_constants(a, e) } || empty_result
         end
       end
 
@@ -77,7 +76,7 @@ module Rubrowser
         constants = if namespace.empty? || constant.first.nil?
                       [{ parents => [constant.compact] }]
                     else
-                      [{ parents => (namespace.size-1).downto(0).map { |i| namespace[0..i] + constant }.push(constant) }]
+                      [{ parents => (namespace.size - 1).downto(0).map { |i| namespace[0..i] + constant }.push(constant) }]
                     end
         { definitions: [], occurences: constants }
       end
@@ -92,6 +91,10 @@ module Rubrowser
       def resolve_const_path(node, parents = [])
         return parents unless node.is_a?(::Parser::AST::Node) && [:const, :cbase].include?(node.type)
         resolve_const_path(node.children.first, parents) + [node.children.last]
+      end
+
+      def empty_result
+        { definitions: [], occurences: [] }
       end
     end
   end
