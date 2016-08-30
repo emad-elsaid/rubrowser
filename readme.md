@@ -37,7 +37,7 @@ gem install rubrowser
 
 
 ```
-Usage: bin/rubrowser [options] [file] ...
+Usage: rubrowser [options] [file] ...
     -p, --port=PORT                  Specify port number for server, default = 9000
     -v, --version                    Print Rubrowser version
     -h, --help                       Prints this help
