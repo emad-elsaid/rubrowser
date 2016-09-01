@@ -40,3 +40,7 @@ text {
 text.type{
     font: 7px sans-serif;
 }
+
+.downlighted{
+    opacity: 0.1;
+}
