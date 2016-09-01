@@ -23,8 +23,6 @@ module Rubrowser
       mount_proc '/' do |req, res|
         res.body = router(req.path)
       end
-
-      trap('INT') { shutdown }
     end
 
     private
