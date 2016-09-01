@@ -6,7 +6,7 @@ a visualizer for ruby code (rails or otherwise), it analyze your code and extrac
 
 this project is so small that the visualization looks like so
 
-![rubrowser visualization](http://i.imgur.com/HwLfJx2.png)
+![rubrowser visualization](http://i.imgur.com/5mbshee.png)
 
 the idea is that the project opens every `.rb` file and parse it with `parser` gem then list all modules and classes definitions, and all constants that are listed inside this module/class and link them together.
 
