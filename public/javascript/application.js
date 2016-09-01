@@ -12,7 +12,7 @@ var parseGraph = function(data){
         .on("start", dragstarted)
         .on("drag", dragged)
         .on("end", dragended),
-      constants = _.uniqWith(data.definitions.map(function(d){ return {id: d.namespace}; }), _.isEqual),
+      constants = _.uniqWith(data.definitions.map(function(d){ return {id: d.namespace, type: d.type }; }), _.isEqual),
       namespaces = constants.map(function(d){ return d.id; }),
       relations = data.relations.map(function(d){ return {source: d.caller, target: d.resolved_namespace }; });
 
@@ -60,6 +60,12 @@ var parseGraph = function(data){
       circle = node
         .append("circle")
         .attr("r", 6),
+      type = node
+        .append("text")
+        .attr("class", "type")
+        .attr("x", "-0.4em")
+        .attr("y", "0.4em")
+        .text(function(d) { return d.type[0]; }),
       text = node
         .append("text")
         .attr("x", 8)
