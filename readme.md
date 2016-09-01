@@ -54,6 +54,8 @@ it'll analyze the current directory and open port 9000, so you can access the gr
 * to release node double click on it
 * zoom and pan with mouse or touch pad
 * highlight node and all related nodes, it'll make it easier for you to see what depends and dependencies of certain class
+* ignore node by name
+* ignore nodes of certain type (modules/classes)
 
 
 ## Tests?

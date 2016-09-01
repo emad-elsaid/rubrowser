@@ -41,6 +41,58 @@ text.type{
     font: 7px sans-serif;
 }
 
-.downlighted{
+.downlighted, .name_ignored, .type_ignored{
     opacity: 0.1;
+}
+
+/* ============================ */
+/* Toolbox style */
+/* ============================ */
+
+.toolbox{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    max-height: 100%;
+    width: 200px;
+    background: white;
+    border-right: 1px solid #ddd;
+    display: none;
+}
+
+.panel .title{
+    padding: 20px 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.panel .title:hover{
+    background: #eee;
+}
+
+.panel .content{
+    border-bottom: 1px solid #ddd;
+    padding: 5px;
+}
+
+label{
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+textarea{
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 100px;
+    padding: 0px;
+    border: 1px solid #ddd
 }

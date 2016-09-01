@@ -1,6 +1,7 @@
 d3.json("/data.json", function(error, data) {
   parseGraph(data);
   $('.loading').hide();
+  $('.toolbox').show();
 });
 
 var parseGraph = function(data){
@@ -12,8 +13,8 @@ var parseGraph = function(data){
         .on("start", dragstarted)
         .on("drag", dragged)
         .on("end", dragended),
-      constants = _.uniqWith(data.definitions.map(function(d){ return {id: d.namespace, type: d.type }; }), _.isEqual),
-      namespaces = constants.map(function(d){ return d.id; }),
+      definitions = _.uniqWith(data.definitions.map(function(d){ return {id: d.namespace, type: d.type }; }), _.isEqual),
+      namespaces = definitions.map(function(d){ return d.id; }),
       relations = data.relations.map(function(d){ return {source: d.caller, target: d.resolved_namespace }; });
 
   relations = relations.filter(function(d){
@@ -37,7 +38,7 @@ var parseGraph = function(data){
         .force("forceCollide", d3.forceCollide(function(){ return 80; }));
 
   simulation
-    .nodes(constants)
+    .nodes(definitions)
     .on("tick", ticked);
 
   simulation.force("link")
@@ -53,7 +54,7 @@ var parseGraph = function(data){
       node = container.append("g")
         .attr("class", "nodes")
         .selectAll("g")
-        .data(constants)
+        .data(definitions)
         .enter().append("g")
         .call(drag)
         .on("dblclick", dblclick),
@@ -145,6 +146,11 @@ var parseGraph = function(data){
     node.classed('downlighted', false);
   });
 
-  return true;
-
+  window.rubrowser = {
+    data: data,
+    definitions: definitions,
+    relations: relations,
+    node: node,
+    link: link
+  };
 };
