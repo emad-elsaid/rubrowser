@@ -1,11 +1,16 @@
 require 'webrick'
 require 'data'
-require 'json'
+require 'formatter/json'
 require 'erb'
 
 module Rubrowser
   class Server < WEBrick::HTTPServer
     include ERB::Util
+
+    ROUTES = {
+      '/' => :root,
+      '/data.json' => :data
+    }
 
     def self.start(options = {})
       new(options).start
@@ -13,12 +18,10 @@ module Rubrowser
 
     def initialize(options)
       super Port: options[:port]
-
-      @data = Rubrowser::Data.new(options[:files])
-      @data.parse
+      @files = options[:files]
 
       mount_proc '/' do |req, res|
-        res.body = root(req.path)
+        res.body = router(req.path)
       end
 
       trap('INT') { shutdown }
@@ -26,11 +29,22 @@ module Rubrowser
 
     private
 
-    attr_reader :data
+    attr_reader :files
 
-    def root(path)
+    def router(path)
       return file(path) if file?(path)
+      return send(ROUTES[path]) if ROUTES.key?(path)
+      'Route not found.'
+    end
+
+    def root
       erb :index
+    end
+
+    def data
+      data = Data.new(files)
+      formatter = Formatter::JSON.new(data)
+      formatter.call
     end
 
     def file?(path)

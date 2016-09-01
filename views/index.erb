@@ -4,13 +4,14 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
     <title>Rubrowser</title>
     <link href='/css/application.css' media='all' rel='stylesheet'>
-    <script src='/javascript/d3.js' type='text/javascript'></script>
-    <script src='/javascript/jquery.js' type='text/javascript'></script>
-    <script src='/javascript/application.js' type='text/javascript'></script>
   </head>
   <body>
     <div class='dependency_graph'>
-      <svg data-constants="<%=h data.constants.to_json%>" data-occurences="<%=h data.occurences.to_json%>"></svg>
+      <svg></svg>
     </div>
+    <script src='/javascript/lodash.js' type='text/javascript'></script>
+    <script src='/javascript/d3.js' type='text/javascript'></script>
+    <script src='/javascript/jquery.js' type='text/javascript'></script>
+    <script src='/javascript/application.js' type='text/javascript'></script>
   </body>
 </html>

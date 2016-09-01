@@ -1,16 +1,19 @@
 require 'parser/current'
+require 'parser/definition/class'
+require 'parser/definition/module'
+require 'parser/relation/base'
 
 module Rubrowser
   module Parser
     class File
       FILE_SIZE_LIMIT = 2 * 1024 * 1024
 
-      attr_reader :file, :definitions, :occurences
+      attr_reader :file, :definitions, :relations
 
       def initialize(file)
-        @file = file
+        @file = ::File.absolute_path(file)
         @definitions = []
-        @occurences = []
+        @relations = []
       end
 
       def parse
@@ -19,8 +22,8 @@ module Rubrowser
           ast = ::Parser::CurrentRuby.parse(code)
           constants = parse_block(ast)
 
-          @definitions = constants[:definitions].uniq
-          @occurences = constants[:occurences].uniq
+          @definitions = constants[:definitions]
+          @relations = constants[:relations]
         end
       rescue ::Parser::SyntaxError
         warn "SyntaxError in #{file}"
@@ -35,66 +38,79 @@ module Rubrowser
       private
 
       def parse_block(node, parents = [])
-        return empty_result unless node.is_a?(::Parser::AST::Node)
+        return empty_result unless valid_node?(node)
 
         case node.type
-        when :module
-          parse_module(node, parents)
-        when :class
-          parse_class(node, parents)
-        when :const
-          parse_const(node, parents)
-        else
-          node
-            .children
-            .map { |n| parse_block(n, parents) }
-            .reduce { |a, e| merge_constants(a, e) } || empty_result
+        when :module then parse_module(node, parents)
+        when :class then parse_class(node, parents)
+        when :const then parse_const(node, parents)
+        else parse_array(node.children, parents)
         end
       end
 
       def parse_module(node, parents = [])
-        name = resolve_const_path(node.children.first, parents)
-        node
-          .children[1..-1]
-          .map { |n| parse_block(n, name) }
-          .reduce { |a, e| merge_constants(a, e) }
-          .tap { |constants| constants[:definitions].unshift(name) }
+        namespace = ast_consts_to_array(node.children.first, parents)
+        definition = Definition::Module.new(
+          namespace,
+          file: file,
+          line: node.loc.line
+        )
+        constants = { definitions: [definition] }
+        children_constants = parse_array(node.children[1..-1], namespace)
+
+        merge_constants(children_constants, constants)
       end
 
       def parse_class(node, parents = [])
-        name = resolve_const_path(node.children.first, parents)
-        node
-          .children[1..-1]
-          .map { |n| parse_block(n, name) }
-          .reduce { |a, e| merge_constants(a, e) }
-          .tap { |constants| constants[:definitions].unshift(name) }
+        namespace = ast_consts_to_array(node.children.first, parents)
+        definition = Definition::Class.new(
+          namespace,
+          file: file,
+          line: node.loc.line
+        )
+        constants = { definitions: [definition] }
+        children_constants = parse_array(node.children[1..-1], namespace)
+
+        merge_constants(children_constants, constants)
       end
 
       def parse_const(node, parents = [])
-        constant = resolve_const_path(node)
-        namespace = parents[0...-1]
-        constants = if namespace.empty? || constant.first.nil?
-                      [{ parents => [constant.compact] }]
-                    else
-                      [{ parents => (namespace.size - 1).downto(0).map { |i| namespace[0..i] + constant }.push(constant) }]
-                    end
-        { definitions: [], occurences: constants }
+        constant = ast_consts_to_array(node)
+        definition = Relation::Base.new(
+          constant,
+          parents,
+          file: file,
+          line: node.loc.line
+        )
+        { relations: [definition] }
+      end
+
+      def parse_array(arr, parents = [])
+        arr.map { |n| parse_block(n, parents) }
+           .reduce { |a, e| merge_constants(a, e) }
       end
 
       def merge_constants(c1, c2)
+        c1 ||= {}
+        c2 ||= {}
         {
-          definitions: c1[:definitions] + c2[:definitions],
-          occurences: c1[:occurences] + c2[:occurences]
+          definitions: c1[:definitions].to_a + c2[:definitions].to_a,
+          relations: c1[:relations].to_a + c2[:relations].to_a
         }
       end
 
-      def resolve_const_path(node, parents = [])
-        return parents unless node.is_a?(::Parser::AST::Node) && [:const, :cbase].include?(node.type)
-        resolve_const_path(node.children.first, parents) + [node.children.last]
+      def ast_consts_to_array(node, parents = [])
+        return parents unless valid_node?(node) &&
+                              [:const, :cbase].include?(node.type)
+        ast_consts_to_array(node.children.first, parents) + [node.children.last]
       end
 
       def empty_result
-        { definitions: [], occurences: [] }
+        {}
+      end
+
+      def valid_node?(node)
+        node.is_a?(::Parser::AST::Node)
       end
     end
   end

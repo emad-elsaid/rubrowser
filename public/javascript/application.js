@@ -1,19 +1,24 @@
-var ParseGraph = function(){
-  var svg = d3.select(".dependency_graph svg");
-  var $svg = $('.dependency_graph svg');
+d3.json("/data.json", function(error, data) {
+  parseGraph(data);
+});
 
-  if(!svg.size()){
-    return false;
-  }
-
-  var width = $svg.width(),
+var parseGraph = function(data){
+  var svg = d3.select(".dependency_graph svg"),
+      $svg = $('.dependency_graph svg'),
+      width = $svg.width(),
       height = $svg.height(),
-      constants = JSON.parse(svg.attr('data-constants')),
-      occurences = JSON.parse(svg.attr('data-occurences')),
       drag = d3.drag()
         .on("start", dragstarted)
         .on("drag", dragged)
-        .on("end", dragended);
+        .on("end", dragended),
+      constants = _.uniqWith(data.definitions.map(function(d){ return {id: d.namespace}; }), _.isEqual),
+      namespaces = constants.map(function(d){ return d.id; }),
+      relations = data.relations.map(function(d){ return {source: d.caller, target: d.resolved_namespace }; });
+
+  relations = relations.filter(function(d){
+    return namespaces.indexOf(d.source) >= 0 && namespaces.indexOf(d.target) >= 0;
+  });
+  relations = _.uniqWith(relations, _.isEqual);
 
   var zoom = d3.zoom()
         .on("zoom", function () {
@@ -23,9 +28,8 @@ var ParseGraph = function(){
   svg.call(zoom)
     .on("dblclick.zoom", null);
 
-  var container = svg.append('g');
-
-  var simulation = d3.forceSimulation()
+  var container = svg.append('g'),
+      simulation = d3.forceSimulation()
         .force("link", d3.forceLink().id(function(d) { return d.id; }))
         .force("charge", d3.forceManyBody())
         .force("center", d3.forceCenter(width / 2, height / 2))
@@ -36,36 +40,33 @@ var ParseGraph = function(){
     .on("tick", ticked);
 
   simulation.force("link")
-    .links(occurences);
+    .links(relations);
 
   var link = container.append("g")
         .attr("class", "links")
         .selectAll("path")
-        .data(occurences)
+        .data(relations)
         .enter().append("path")
         .attr("class", 'link')
-        .attr("marker-end", "url(#occurence)");
-
-  var node = container.append("g")
+        .attr("marker-end", "url(#relation)"),
+      node = container.append("g")
         .attr("class", "nodes")
         .selectAll("g")
         .data(constants)
         .enter().append("g")
         .call(drag)
-        .on("dblclick", dblclick);
-
-  var circle = node
+        .on("dblclick", dblclick),
+      circle = node
         .append("circle")
-        .attr("r", 6);
-
-  var text = node
+        .attr("r", 6),
+      text = node
         .append("text")
         .attr("x", 8)
         .attr("y", ".31em")
         .text(function(d) { return d.id; });
 
   container.append("defs").selectAll("marker")
-    .data(['occurence'])
+    .data(['relation'])
     .enter().append("marker")
     .attr("id", function(d) { return d; })
     .attr("viewBox", "0 -5 10 10")
@@ -144,5 +145,3 @@ var ParseGraph = function(){
   return true;
 
 };
-
-$(function(){ParseGraph();});

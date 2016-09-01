@@ -6,7 +6,7 @@ a visualizer for ruby code (rails or otherwise), it analyze your code and extrac
 
 this project is so small that the visualization looks like so
 
-![rubrowser visualization](http://i.imgur.com/O2tbOJZ.png)
+![rubrowser visualization](http://i.imgur.com/HwLfJx2.png)
 
 the idea is that the project opens every `.rb` file and parse it with `parser` gem then list all modules and classes definitions, and all constants that are listed inside this module/class and link them together.
 
@@ -20,9 +20,8 @@ Here are some output examples
 
 there are couple things you need to keep in mind:
 
-* if your file doesn't have a valid ruby syntax it won't be parsed and will cause the gem to stop
+* if your file doesn't have a valid ruby syntax it won't be parsed and will print warning.
 * if you reference a class that is not defined in your project it won't be in the graph, we only display the graph of classes/modules you defined
-* the server analyze your code once upon the script starts if you changed your code you'll have to restart rubrowser
 * it statically analyze the code so meta programming is out of question in here
 * rails associations are meta programming so forget it :smile:
 
@@ -59,7 +58,7 @@ it'll analyze the current directory and open port 9000, so you can access the gr
 
 ## Tests?
 
-what test? :D
+What tests? :smile:
 
 ## Why?
 

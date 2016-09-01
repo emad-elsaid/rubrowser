@@ -17,8 +17,8 @@ module Rubrowser
         parsers.map(&:definitions).map(&:to_a).reduce([], :+)
       end
 
-      def occurences
-        parsers.map(&:occurences).map(&:to_a).reduce([], :+)
+      def relations
+        parsers.map(&:relations).map(&:to_a).reduce([], :+)
       end
 
       private

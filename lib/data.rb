@@ -1,29 +1,28 @@
 require 'parser/factory'
-require 'tree'
-require 'd3'
 
 module Rubrowser
   class Data
-    def initialize(paths)
-      @files = paths
+    def initialize(files)
+      @files = files
       @parsed = false
+      parse
     end
 
-    def constants
-      @_constants ||= d3.constants.to_a
+    def definitions
+      @_constants ||= parsers.map(&:definitions).reduce(:+).to_a
     end
 
-    def occurences
-      @_occurences ||= d3.occurences.to_a
+    def relations
+      @_relations ||= parsers.map(&:relations).reduce(:+).to_a
     end
+
+    private
 
     def parse
       return if parsed?
       parsers.each(&:parse)
       @parsed = true
     end
-
-    private
 
     attr_reader :files, :parsed
     alias parsed? parsed
@@ -33,15 +32,5 @@ module Rubrowser
         Rubrowser::Parser::Factory.build(file)
       end
     end
-
-    def d3
-      @_d3 ||= Rubrowser::D3.new(tree)
-    end
-
-    def tree
-      parse
-      @_tree ||= Rubrowser::Tree.from_parsers(parsers)
-    end
-
   end
 end
