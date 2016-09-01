@@ -3,6 +3,16 @@ html, body, .dependency_graph, .dependency_graph svg{
     height: 100%;
     padding: 0px;
     margin: 0px;
+    font: 10px sans-serif;
+}
+
+.loading{
+    position: absolute;
+    top: 30px;
+    left: 0px;
+    text-align: center;
+    width: 100%;
+    font-size: 3rem;
 }
 
 .link {

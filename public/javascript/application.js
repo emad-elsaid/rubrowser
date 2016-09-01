@@ -1,5 +1,6 @@
 d3.json("/data.json", function(error, data) {
   parseGraph(data);
+  $('.loading').hide();
 });
 
 var parseGraph = function(data){
