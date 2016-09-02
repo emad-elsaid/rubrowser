@@ -62,6 +62,11 @@ $(document).on('change', "#force_collide", function(){
   rubrowser.simulation.force("forceCollide", d3.forceCollide(new_value));
 });
 
+$(document).on('change', "#hide_relations", function(){
+  var hide_relations = $('#hide_relations').is(':checked');
+  rubrowser.link.classed("hide_relation", hide_relations);
+});
+
 $(document).on('change', "#hide_namespaces", function(){
   var hide_namespaces = $('#hide_namespaces').is(':checked');
   rubrowser.node.classed("hide_namespace", hide_namespaces);

@@ -53,7 +53,7 @@ text.type{
     stroke: #008ef3;
 }
 
-.hide_namespace .namespace{
+.hide_namespace .namespace, .link.hide_relation{
     display: none;
 }
 
