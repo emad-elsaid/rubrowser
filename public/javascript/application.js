@@ -35,7 +35,7 @@ var parseGraph = function(data){
         .force("link", d3.forceLink().id(function(d) { return d.id; }))
         .force("charge", d3.forceManyBody())
         .force("center", d3.forceCenter(width / 2, height / 2))
-        .force("forceCollide", d3.forceCollide(function(){ return 80; }));
+        .force("forceCollide", d3.forceCollide(80));
 
   simulation
     .nodes(definitions)
@@ -69,6 +69,7 @@ var parseGraph = function(data){
         .text(function(d) { return d.type[0]; }),
       text = node
         .append("text")
+        .attr("class", "namespace")
         .attr("x", 8)
         .attr("y", ".31em")
         .text(function(d) { return d.id; });
@@ -150,6 +151,7 @@ var parseGraph = function(data){
     data: data,
     definitions: definitions,
     relations: relations,
+    simulation: simulation,
     node: node,
     link: link
   };
