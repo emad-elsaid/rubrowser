@@ -45,6 +45,13 @@ text.type{
     opacity: 0.1;
 }
 
+.highlighted, .name_highlighted, .type_highlighted{
+    fill: #008ef3;
+}
+.highlighted circle, .name_highlighted circle, .type_highlighted circle{
+    stroke: #008ef3;
+}
+
 /* ============================ */
 /* Toolbox style */
 /* ============================ */
@@ -58,6 +65,7 @@ text.type{
     background: white;
     border-right: 1px solid #ddd;
     display: none;
+    overflow: auto;
 }
 
 .panel .title{

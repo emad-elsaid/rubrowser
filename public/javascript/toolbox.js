@@ -2,6 +2,31 @@ $(document).on('click', '.panel .title', function(){
   $(this).siblings().toggle();
 });
 
+// --------------------------------
+// Search Panel
+// --------------------------------
+$(document).on('change', '#highlight_by_namespace', function(){
+  var highlights_entries = $(this).val().trim();
+  var highlights = highlights_entries.split("\n");
+
+  rubrowser.node.classed('name_highlighted', function(d){
+    if(highlights_entries.length == 0){ return false; }
+    return highlights.filter(function(i){ return d.id.indexOf(i) > -1; }).length > 0;
+  });
+});
+
+$(document).on('change', '#highlight_modules, #highlight_classes', function(){
+  var modules_highlighted = $('#highlight_modules').is(':checked'),
+      classes_highlighted = $('#highlight_classes').is(':checked');
+
+  rubrowser.node.classed('type_highlighted', function(d){
+    return (d.type == 'Module' && modules_highlighted) || (d.type == 'Class' && classes_highlighted);
+  });
+});
+
+// --------------------------------
+// Ignore Panel
+// --------------------------------
 $(document).on('change', '#ignore_by_namespace', function(){
   var ignores_entries = $(this).val().trim();
   var ignores = ignores_entries.split("\n");
