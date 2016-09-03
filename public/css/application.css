@@ -74,7 +74,7 @@ text.type{
 }
 
 .panel .title{
-    padding: 20px 10px;
+    padding: 10px;
     font-weight: bold;
     text-transform: uppercase;
     cursor: pointer;
@@ -84,10 +84,11 @@ text.type{
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    background: #eee;
 }
 
 .panel .title:hover{
-    background: #eee;
+    background: #ddd;
 }
 
 .panel .content{
@@ -116,4 +117,13 @@ text.type{
     width: 100%;
     max-width: 100%;
     display: block;
+}
+
+ul, ol{
+    list-style-position: inside;
+    white-space: nowrap;
+    margin: 0px;
+    padding-left: 0px;
+    max-width: 100%;
+    overflow: auto;
 }

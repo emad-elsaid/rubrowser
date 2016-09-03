@@ -155,4 +155,5 @@ var parseGraph = function(data){
     node: node,
     link: link
   };
+  $(document).trigger('graph-rendered');
 };
