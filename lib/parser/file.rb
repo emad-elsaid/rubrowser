@@ -17,7 +17,7 @@ module Rubrowser
       end
 
       def parse
-        if file_valid?(file)
+        if valid_file?(file)
           code = ::File.read(file)
           ast = ::Parser::CurrentRuby.parse(code)
           constants = parse_block(ast)
@@ -29,7 +29,7 @@ module Rubrowser
         warn "SyntaxError in #{file}"
       end
 
-      def file_valid?(file)
+      def valid_file?(file)
         !::File.symlink?(file) &&
           ::File.file?(file) &&
           ::File.size(file) <= FILE_SIZE_LIMIT
