@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
     f.match(%r{^(test|spec|features)/})
   end
   s.bindir        = 'bin'
-  s.executables   = s.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.require_paths = ['lib']
 
   s.add_runtime_dependency 'parser', '~> 2.3', '>= 2.3.0'
