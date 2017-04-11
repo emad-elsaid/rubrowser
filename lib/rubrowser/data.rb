@@ -1,4 +1,4 @@
-require 'parser/factory'
+require 'rubrowser/parser/factory'
 
 module Rubrowser
   class Data

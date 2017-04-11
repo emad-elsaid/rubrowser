@@ -1,21 +1,24 @@
 PATH
   remote: .
   specs:
-    rubrowser (0.2.2)
+    rubrowser (0.2.4)
       parser (~> 2.3, >= 2.3.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    ast (2.3.0)
-    parser (2.3.1.2)
+    ast (2.2.0)
+    parser (2.4.0.0)
       ast (~> 2.2)
+    rake (10.4.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  bundler (~> 1.14)
+  rake (~> 10.0)
   rubrowser!
 
 BUNDLED WITH
-   1.12.5
+   1.14.5

@@ -1,5 +1,5 @@
-require 'parser/file'
-require 'parser/directory'
+require 'rubrowser/parser/file'
+require 'rubrowser/parser/directory'
 
 module Rubrowser
   module Parser
