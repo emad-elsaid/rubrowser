@@ -1,7 +1,7 @@
 require 'webrick'
-require 'data'
-require 'formatter/json'
 require 'erb'
+require 'rubrowser/data'
+require 'rubrowser/formatter/json'
 
 module Rubrowser
   class Server < WEBrick::HTTPServer
@@ -61,7 +61,7 @@ module Rubrowser
     end
 
     def resolve_file_path(path)
-      File.expand_path("../..#{path}", __FILE__)
+      File.expand_path("../../..#{path}", __FILE__)
     end
   end
 end

@@ -1,4 +1,4 @@
-require 'parser/definition/base'
+require 'rubrowser/parser/definition/base'
 
 module Rubrowser
   module Parser

@@ -3,6 +3,7 @@ $LOAD_PATH.push File.expand_path('../../lib', __FILE__)
 
 require 'optparse'
 require 'rubrowser'
+require 'rubrowser/server'
 
 OPTIONS = {
   port: 9000,
@@ -27,5 +28,4 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-require 'server'
 Rubrowser::Server.start(OPTIONS)

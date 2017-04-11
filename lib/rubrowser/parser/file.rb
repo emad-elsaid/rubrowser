@@ -1,7 +1,7 @@
 require 'parser/current'
-require 'parser/definition/class'
-require 'parser/definition/module'
-require 'parser/relation/base'
+require 'rubrowser/parser/definition/class'
+require 'rubrowser/parser/definition/module'
+require 'rubrowser/parser/relation/base'
 
 module Rubrowser
   module Parser
