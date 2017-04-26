@@ -2,6 +2,7 @@ require 'parser/current'
 require 'rubrowser/parser/definition/class'
 require 'rubrowser/parser/definition/module'
 require 'rubrowser/parser/relation/base'
+require 'rubrowser/parser/builder'
 
 module Rubrowser
   module Parser
@@ -18,8 +19,16 @@ module Rubrowser
 
       def parse
         if valid_file?(file)
-          code = ::File.read(file)
-          ast = ::Parser::CurrentRuby.parse(code)
+          contents = ::File.read(file)
+
+          buffer = ::Parser::Source::Buffer.new(file, 1)
+          buffer.source = contents.force_encoding(Encoding::UTF_8)
+
+          parser = ::Parser::CurrentRuby.new(Builder.new)
+          parser.diagnostics.ignore_warnings = true
+          parser.diagnostics.all_errors_are_fatal = false
+
+          ast = parser.parse(buffer)
           constants = parse_block(ast)
 
           @definitions = constants[:definitions]
