@@ -8,13 +8,14 @@ $(document).on('click', '.panel .title', function(){
 $(document).on('graph-rendered', function(){
   rubrowser.node.on('click', function(d){
     var namespace = d.id;
+    var lines = d.lines;
     var dependents = rubrowser.relations.filter(function(i){ return i.target.id == namespace; });
     var dependencies = rubrowser.relations.filter(function(i){ return i.source.id == namespace; });
     var definitions = rubrowser.data.definitions.filter(function(i){ return i.namespace == namespace; });
     var relations = rubrowser.data.relations.filter(function(i){ return i.resolved_namespace == namespace || i.caller == namespace; });
 
     var content = $('<div>');
-    content.append('<label><strong>'+namespace+'</strong></label>');
+    content.append('<label><strong>'+namespace+' ('+d.lines+' Lines)</strong></label>');
 
     content.append('<strong>Defined in:</strong>');
     var definitions_ol = $("<ol>");

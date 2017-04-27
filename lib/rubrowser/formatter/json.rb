@@ -23,7 +23,8 @@ module Rubrowser
           type: demoularize(definition.class.name),
           namespace: definition.to_s,
           file: definition.file,
-          line: definition.line
+          line: definition.line,
+          lines: definition.lines
         }
       end
 

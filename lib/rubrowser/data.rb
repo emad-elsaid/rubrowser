@@ -9,7 +9,7 @@ module Rubrowser
     end
 
     def definitions
-      @_constants ||= parsers.map(&:definitions).reduce(:+).to_a
+      @_definitions ||= parsers.map(&:definitions).reduce(:+).to_a
     end
 
     def relations
@@ -18,14 +18,14 @@ module Rubrowser
 
     private
 
+    attr_reader :files, :parsed
+    alias parsed? parsed
+
     def parse
       return if parsed?
       parsers.each(&:parse)
       @parsed = true
     end
-
-    attr_reader :files, :parsed
-    alias parsed? parsed
 
     def parsers
       @_parsers ||= files.map do |file|

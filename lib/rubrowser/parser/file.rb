@@ -2,7 +2,7 @@ require 'parser/current'
 require 'rubrowser/parser/definition/class'
 require 'rubrowser/parser/definition/module'
 require 'rubrowser/parser/relation/base'
-require 'rubrowser/parser/builder'
+require 'rubrowser/parser/file/builder'
 
 module Rubrowser
   module Parser
@@ -18,22 +18,21 @@ module Rubrowser
       end
 
       def parse
-        if valid_file?(file)
-          contents = ::File.read(file)
+        return unless valid_file?(file)
+        contents = ::File.read(file)
 
-          buffer = ::Parser::Source::Buffer.new(file, 1)
-          buffer.source = contents.force_encoding(Encoding::UTF_8)
+        buffer = ::Parser::Source::Buffer.new(file, 1)
+        buffer.source = contents.force_encoding(Encoding::UTF_8)
 
-          parser = ::Parser::CurrentRuby.new(Builder.new)
-          parser.diagnostics.ignore_warnings = true
-          parser.diagnostics.all_errors_are_fatal = false
+        parser = ::Parser::CurrentRuby.new(Builder.new)
+        parser.diagnostics.ignore_warnings = true
+        parser.diagnostics.all_errors_are_fatal = false
 
-          ast = parser.parse(buffer)
-          constants = parse_block(ast)
+        ast = parser.parse(buffer)
+        constants = parse_block(ast)
 
-          @definitions = constants[:definitions]
-          @relations = constants[:relations]
-        end
+        @definitions = constants[:definitions]
+        @relations = constants[:relations]
       rescue ::Parser::SyntaxError
         warn "SyntaxError in #{file}"
       end
@@ -62,7 +61,8 @@ module Rubrowser
         definition = Definition::Module.new(
           namespace,
           file: file,
-          line: node.loc.line
+          line: node.loc.line,
+          lines: node.loc.last_line - node.loc.line + 1
         )
         constants = { definitions: [definition] }
         children_constants = parse_array(node.children[1..-1], namespace)
@@ -75,7 +75,8 @@ module Rubrowser
         definition = Definition::Class.new(
           namespace,
           file: file,
-          line: node.loc.line
+          line: node.loc.line,
+          lines: node.loc.last_line - node.loc.line + 1
         )
         constants = { definitions: [definition] }
         children_constants = parse_array(node.children[1..-1], namespace)

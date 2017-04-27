@@ -5,16 +5,23 @@ require 'rubrowser/formatter/json'
 
 module Rubrowser
   class Server < WEBrick::HTTPServer
+    # Accepted options are:
+    # port: port number for the server
+    # files: list of file paths to parse
+    def self.start(options = {})
+      new(options).start
+    end
+
+    private
+
     include ERB::Util
 
     ROUTES = {
       '/' => :root,
       '/data.json' => :data
-    }
+    }.freeze
 
-    def self.start(options = {})
-      new(options).start
-    end
+    attr_reader :files
 
     def initialize(options)
       super Port: options[:port]
@@ -24,10 +31,6 @@ module Rubrowser
         res.body = router(req.path)
       end
     end
-
-    private
-
-    attr_reader :files
 
     def router(path)
       return file(path) if file?(path)

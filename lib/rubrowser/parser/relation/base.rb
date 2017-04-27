@@ -35,9 +35,11 @@ module Rubrowser
         private
 
         def possibilities
-          return [
-            Definition::Base.new(@namespace.compact, file: file, line: line)
-          ] if absolute?
+          if absolute?
+            return [
+              Definition::Base.new(@namespace.compact, file: file, line: line)
+            ]
+          end
 
           possible_parent_namespaces
             .map { |possible_parent| possible_parent + @namespace }
