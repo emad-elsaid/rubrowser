@@ -60,6 +60,7 @@ it'll analyze the current directory and open port 9000, so you can access the gr
 * hide relations
 * change graph appearance (collision radius)
 * stop animation immediately
+* Module/class circle size on the graph will be relative to module number of lines in your code
 
 
 ## Tests?
