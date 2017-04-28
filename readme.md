@@ -62,11 +62,6 @@ it'll analyze the current directory and open port 9000, so you can access the gr
 * stop animation immediately
 * Module/class circle size on the graph will be relative to module number of lines in your code
 
-
-## Tests?
-
-What tests? :smile:
-
 ## Why?
 
 Because i didn't find a good visualization tool to make me understand ruby projects when I join a new one.
