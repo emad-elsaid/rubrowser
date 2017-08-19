@@ -1,6 +1,8 @@
 require "bundler/gem_tasks"
-require "rake/testtask"
 
+task :s do
+  ruby './bin/rubrowser'
+end
 
 begin
   require 'rspec/core/rake_task'
@@ -11,3 +13,4 @@ begin
 rescue LoadError
   # no rspec available
 end
+
