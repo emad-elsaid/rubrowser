@@ -1,58 +1,74 @@
 require 'rubrowser/parser/file'
 
 describe Rubrowser::Parser::File do
-  it 'returns an empty array' do
-    file_with_no_relations = File.expand_path('spec/parser/fixtures/class_with_no_relations.rb')
 
-    file = Rubrowser::Parser::File.new(file_with_no_relations)
+  context 'There are dependencies' do
+    shared_examples_for 'an empty relation' do
+      it 'returns an empty array' do
+        file = Rubrowser::Parser::File.new(File.expand_path(file_path))
 
-    expect(file.parse).to eq([])
+        expect(file.parse).to eq([])
+      end
+    end
+
+    context 'in a class' do
+      let(:file_path) {'spec/parser/fixtures/class_with_no_relations.rb'}
+
+      it_behaves_like 'an empty relation'
+    end
+
+    context 'in a module' do
+      let(:file_path) {'spec/parser/fixtures/module_with_no_relations.rb'}
+
+      it_behaves_like 'an empty relation'
+    end
   end
 
-  it 'returns an empty array' do
-    module_with_no_relations = File.expand_path('spec/parser/fixtures/module_with_no_relations.rb')
+  shared_examples_for 'a relation' do
+    it 'returns an with a relation' do
+      namespace = double(:namespace, namespace: [dependency_namespace])
+      caller_namespace = double(:caller_namespace, namespace: [file_namespace])
 
-    file = Rubrowser::Parser::File.new(module_with_no_relations)
+      file = Rubrowser::Parser::File.new(File.expand_path(file_path))
 
-    expect(file.parse).to eq([])
+      relations = file.parse
+      expect(relations.length).to eq(1)
+      expect(relations.first).to eq(double(:relation, namespace: namespace,
+                                           caller_namespace: caller_namespace))
+    end
   end
 
-  it 'returns an with a relation' do
-    class_with_one_included_mixin = File.expand_path('spec/parser/fixtures/class_with_one_included_mixin.rb')
-    namespace = double(:namespace, namespace: [:ModuleWithNoRelations])
-    caller_namespace = double(:caller_namespace, namespace: [:ClassWithOneIncludedMixin])
+  context 'Module depends on a class' do
+    let(:file_path) {'spec/parser/fixtures/module_with_one_class_dependency.rb'}
+    let(:file_namespace) {:ModuleWithOneClassDependency}
+    let(:dependency_namespace) {:ClassWithNoRelations}
 
-    file = Rubrowser::Parser::File.new(class_with_one_included_mixin)
-
-    relations = file.parse
-    expect(relations.length).to eq(1)
-    expect(relations.first).to eq(double(:relation, namespace: namespace,
-                                         caller_namespace: caller_namespace))
+    it_behaves_like 'a relation'
   end
 
-  it 'returns an with a relation' do
-    class_with_one_extended_mixin = File.expand_path('spec/parser/fixtures/class_with_one_extended_mixin.rb')
-    namespace = double(:namespace, namespace: [:ModuleWithNoRelations])
-    caller_namespace = double(:caller_namespace, namespace: [:ClassWithOneExtendedMixin])
+  context 'Class has one Mixin' do
+    context 'included' do
+      let(:file_namespace) {:ClassWithOneIncludedMixin}
+      let(:dependency_namespace) {:ModuleWithNoRelations}
+      let(:file_path) {'spec/parser/fixtures/class_with_one_included_mixin.rb'}
 
-    file = Rubrowser::Parser::File.new(class_with_one_extended_mixin)
+      it_behaves_like 'a relation'
+    end
 
-    relations = file.parse
-    expect(relations.length).to eq(1)
-    expect(relations.first).to eq(double(:relation, namespace: namespace,
-                                         caller_namespace: caller_namespace))
+    context 'extended' do
+      let(:file_namespace) {:ClassWithOneExtendedMixin}
+      let(:dependency_namespace) {:ModuleWithNoRelations}
+      let(:file_path) {'spec/parser/fixtures/class_with_one_extended_mixin.rb'}
+
+      it_behaves_like 'a relation'
+    end
   end
 
-  it 'returns an with a relation' do
-    one_class_dependency = File.expand_path('spec/parser/fixtures/class_with_one_class_dependency.rb')
-    namespace = double(:namespace, namespace: [:ClassWithNoRelations])
-    caller_namespace = double(:caller_namespace, namespace: [:ClassWithOneClassDependency])
+  context 'Class depends on another class' do
+    let(:file_namespace) {:ClassWithOneClassDependency}
+    let(:dependency_namespace) {:ClassWithNoRelations}
+    let(:file_path) {'spec/parser/fixtures/class_with_one_class_dependency.rb'}
 
-    file = Rubrowser::Parser::File.new(one_class_dependency)
-
-    relations = file.parse
-    expect(relations.length).to eq(1)
-    expect(relations.first).to eq(double(:relation, namespace: namespace,
-                                         caller_namespace: caller_namespace))
+    it_behaves_like 'a relation'
   end
 end
