@@ -1,24 +1,27 @@
-require 'rubrowser/parser/file'
+require 'rubrowser/data'
 
-describe Rubrowser::Parser::File do
+describe Rubrowser::Data do
 
   context 'There are dependencies' do
     shared_examples_for 'an empty relation' do
       it 'returns an empty array' do
-        file = Rubrowser::Parser::File.new(File.expand_path(file_path))
+        file = Rubrowser::Data.new([File.expand_path(file_path)])
 
-        expect(file.parse).to eq([])
+        expect(file.relations).to eq([])
+        expect(file.definitions).to eq([double(:definition, namespace: [file_namespace], circular?: false)])
       end
     end
 
     context 'in a class' do
       let(:file_path) {'spec/parser/fixtures/class_with_no_relations.rb'}
+      let(:file_namespace) { :ClassWithNoRelations }
 
       it_behaves_like 'an empty relation'
     end
 
     context 'in a module' do
       let(:file_path) {'spec/parser/fixtures/module_with_no_relations.rb'}
+      let(:file_namespace) { :ModuleWithNoRelations }
 
       it_behaves_like 'an empty relation'
     end
@@ -26,15 +29,19 @@ describe Rubrowser::Parser::File do
 
   shared_examples_for 'a relation' do
     it 'returns an with a relation' do
-      namespace = double(:namespace, namespace: [dependency_namespace])
-      caller_namespace = double(:caller_namespace, namespace: [file_namespace])
+      namespace = double(:namespace, namespace: [dependency_namespace], circular?: false)
+      caller_namespace = double(:caller_namespace, namespace: [file_namespace], circular?: false)
 
-      file = Rubrowser::Parser::File.new(File.expand_path(file_path))
+      file = Rubrowser::Data.new([File.expand_path(file_path)])
 
-      relations = file.parse
+      relations = file.relations
       expect(relations.length).to eq(1)
       expect(relations.first).to eq(double(:relation, namespace: namespace,
-                                           caller_namespace: caller_namespace))
+                                           caller_namespace: caller_namespace, circular?: false))
+
+      definitions = file.definitions
+      expect(definitions.length).to eq(1)
+      expect(definitions.first).to eq(caller_namespace)
     end
   end
 
@@ -70,5 +77,23 @@ describe Rubrowser::Parser::File do
     let(:file_path) {'spec/parser/fixtures/class_with_one_class_dependency.rb'}
 
     it_behaves_like 'a relation'
+  end
+
+  context 'Circular dependency' do
+    context 'across classes' do
+      let(:file_path) {'spec/parser/fixtures/classes_circular_dependency.rb'}
+
+      it 'returns true' do
+        file = Rubrowser::Data.new([File.expand_path(file_path)])
+
+        definitions = file.definitions
+        expect(definitions.first.circular?).to eq(true)
+        expect(definitions.last.circular?).to eq(true)
+
+        relations = file.relations
+        expect(relations.first.circular?).to eq(true)
+        expect(relations.last.circular?).to eq(true)
+      end
+    end
   end
 end
