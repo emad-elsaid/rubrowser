@@ -22,9 +22,7 @@ module Rubrowser
       end
 
       @relations.each do |relation|
-        if components.include?(relation.namespace.to_s)
-          relation.set_circular
-        end
+        relation.set_circular if components.include?(relation.namespace.to_s)
       end
     end
 
