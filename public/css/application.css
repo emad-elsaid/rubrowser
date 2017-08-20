@@ -27,6 +27,10 @@ circle {
   stroke-width: 1.5px;
 }
 
+.circular {
+    stroke: #FF0000;
+}
+
 .fixed circle {
   stroke-width: 3px;
 }

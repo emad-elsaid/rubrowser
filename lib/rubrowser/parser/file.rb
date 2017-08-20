@@ -19,22 +19,29 @@ module Rubrowser
 
       def parse
         return unless valid_file?(file)
-        contents = ::File.read(file)
-
-        buffer = ::Parser::Source::Buffer.new(file, 1)
-        buffer.source = contents.force_encoding(Encoding::UTF_8)
-
-        parser = ::Parser::CurrentRuby.new(Builder.new)
-        parser.diagnostics.ignore_warnings = true
-        parser.diagnostics.all_errors_are_fatal = false
-
-        ast = parser.parse(buffer)
-        constants = parse_block(ast)
+        constants = constants_from_file
 
         @definitions = constants[:definitions]
         @relations = constants[:relations]
       rescue ::Parser::SyntaxError
         warn "SyntaxError in #{file}"
+      end
+
+      def constants_from_file
+        contents = ::File.read(file)
+
+        buffer = ::Parser::Source::Buffer.new(file, 1)
+        buffer.source = contents.force_encoding(Encoding::UTF_8)
+
+        ast = parser.parse(buffer)
+        parse_block(ast)
+      end
+
+      def parser
+        parser = ::Parser::CurrentRuby.new(Builder.new)
+        parser.diagnostics.ignore_warnings = true
+        parser.diagnostics.all_errors_are_fatal = false
+        parser
       end
 
       def valid_file?(file)
@@ -58,26 +65,25 @@ module Rubrowser
 
       def parse_module(node, parents = [])
         namespace = ast_consts_to_array(node.children.first, parents)
-        definition = Definition::Module.new(
-          namespace,
-          file: file,
-          line: node.loc.line,
-          lines: node.loc.last_line - node.loc.line + 1
-        )
+        definition = build_definition(Definition::Module, namespace, node)
         constants = { definitions: [definition] }
         children_constants = parse_array(node.children[1..-1], namespace)
 
         merge_constants(children_constants, constants)
       end
 
-      def parse_class(node, parents = [])
-        namespace = ast_consts_to_array(node.children.first, parents)
-        definition = Definition::Class.new(
+      def build_definition(klass, namespace, node)
+        klass.new(
           namespace,
           file: file,
           line: node.loc.line,
           lines: node.loc.last_line - node.loc.line + 1
         )
+      end
+
+      def parse_class(node, parents = [])
+        namespace = ast_consts_to_array(node.children.first, parents)
+        definition = build_definition(Definition::Class, namespace, node)
         constants = { definitions: [definition] }
         children_constants = parse_array(node.children[1..-1], namespace)
 
@@ -111,7 +117,7 @@ module Rubrowser
 
       def ast_consts_to_array(node, parents = [])
         return parents unless valid_node?(node) &&
-                              [:const, :cbase].include?(node.type)
+                              %I[const cbase].include?(node.type)
         ast_consts_to_array(node.children.first, parents) + [node.children.last]
       end
 
