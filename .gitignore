@@ -1,3 +1,5 @@
 tmp/
 pkg/
 .DS_Store
+.idea
+.byebug_history
