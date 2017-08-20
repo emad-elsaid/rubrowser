@@ -13,14 +13,14 @@ describe Rubrowser::Data do
     end
 
     context 'in a class' do
-      let(:file_path) {'spec/parser/fixtures/class_with_no_relations.rb'}
+      let(:file_path) { 'spec/parser/fixtures/class_with_no_relations.rb' }
       let(:file_namespace) { :ClassWithNoRelations }
 
       it_behaves_like 'an empty relation'
     end
 
     context 'in a module' do
-      let(:file_path) {'spec/parser/fixtures/module_with_no_relations.rb'}
+      let(:file_path) { 'spec/parser/fixtures/module_with_no_relations.rb' }
       let(:file_namespace) { :ModuleWithNoRelations }
 
       it_behaves_like 'an empty relation'
@@ -46,7 +46,7 @@ describe Rubrowser::Data do
   end
 
   context 'Module depends on a class' do
-    let(:file_path) {'spec/parser/fixtures/module_with_one_class_dependency.rb'}
+    let(:file_path) { 'spec/parser/fixtures/module_with_one_class_dependency.rb' }
     let(:file_namespace) {:ModuleWithOneClassDependency}
     let(:dependency_namespace) {:ClassWithNoRelations}
 
@@ -57,7 +57,7 @@ describe Rubrowser::Data do
     context 'included' do
       let(:file_namespace) {:ClassWithOneIncludedMixin}
       let(:dependency_namespace) {:ModuleWithNoRelations}
-      let(:file_path) {'spec/parser/fixtures/class_with_one_included_mixin.rb'}
+      let(:file_path) { 'spec/parser/fixtures/class_with_one_included_mixin.rb' }
 
       it_behaves_like 'a relation'
     end
@@ -65,7 +65,7 @@ describe Rubrowser::Data do
     context 'extended' do
       let(:file_namespace) {:ClassWithOneExtendedMixin}
       let(:dependency_namespace) {:ModuleWithNoRelations}
-      let(:file_path) {'spec/parser/fixtures/class_with_one_extended_mixin.rb'}
+      let(:file_path) { 'spec/parser/fixtures/class_with_one_extended_mixin.rb' }
 
       it_behaves_like 'a relation'
     end
@@ -74,14 +74,14 @@ describe Rubrowser::Data do
   context 'Class depends on another class' do
     let(:file_namespace) {:ClassWithOneClassDependency}
     let(:dependency_namespace) {:ClassWithNoRelations}
-    let(:file_path) {'spec/parser/fixtures/class_with_one_class_dependency.rb'}
+    let(:file_path) { 'spec/parser/fixtures/class_with_one_class_dependency.rb' }
 
     it_behaves_like 'a relation'
   end
 
   context 'Circular dependency' do
     context 'across classes' do
-      let(:file_path) {'spec/parser/fixtures/classes_circular_dependency.rb'}
+      let(:file_path) { 'spec/parser/fixtures/classes_circular_dependency.rb' }
 
       it 'returns true' do
         file = Rubrowser::Data.new([File.expand_path(file_path)])
