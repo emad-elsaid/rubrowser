@@ -6,7 +6,7 @@ d3.json("/data.json", function(error, data) {
 
 var classForCircular = function(d) {
   return d.circular ? 'circular' : '';
-}
+};
 
 var parseGraph = function(data){
   var svg = d3.select(".dependency_graph svg"),
