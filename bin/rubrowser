@@ -8,12 +8,13 @@ require 'rubrowser/server'
 OPTIONS = {
   port: 9000,
   files: ARGV.empty? ? ['.'] : ARGV
-}
+}.freeze
 
 OptionParser.new do |opts|
   opts.banner = "Usage: #{__FILE__} [options] [file] ..."
 
-  opts.on('-pPORT', '--port=PORT', 'Specify port number for server, default = 9000') do |port|
+  message = 'Specify port number for server, default = 9000'
+  opts.on('-pPORT', '--port=PORT', message) do |port|
     OPTIONS[:port] = port.to_i
   end
 

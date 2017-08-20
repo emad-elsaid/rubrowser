@@ -3,8 +3,7 @@ class A
     B.do
   end
 
-  def self.do
-  end
+  def self.do; end
 end
 
 class B
@@ -12,6 +11,5 @@ class B
     A.do
   end
 
-  def self.do
-  end
+  def self.do; end
 end

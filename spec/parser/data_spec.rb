@@ -1,14 +1,16 @@
 require 'rubrowser/data'
 
 describe Rubrowser::Data do
-
   context 'There are dependencies' do
     shared_examples_for 'an empty relation' do
       it 'returns an empty array' do
+        definition = double(:definition,
+                            namespace: [file_namespace],
+                            circular?: false)
         file = Rubrowser::Data.new([File.expand_path(file_path)])
 
         expect(file.relations).to eq([])
-        expect(file.definitions).to eq([double(:definition, namespace: [file_namespace], circular?: false)])
+        expect(file.definitions).to eq([definition])
       end
     end
 
@@ -29,15 +31,21 @@ describe Rubrowser::Data do
 
   shared_examples_for 'a relation' do
     it 'returns an with a relation' do
-      namespace = double(:namespace, namespace: [dependency_namespace], circular?: false)
-      caller_namespace = double(:caller_namespace, namespace: [file_namespace], circular?: false)
+      namespace = double(:namespace,
+                         namespace: [dependency_namespace],
+                         circular?: false)
+      caller_namespace = double(:caller_namespace,
+                                namespace: [file_namespace],
+                                circular?: false)
 
       file = Rubrowser::Data.new([File.expand_path(file_path)])
 
       relations = file.relations
       expect(relations.length).to eq(1)
-      expect(relations.first).to eq(double(:relation, namespace: namespace,
-                                           caller_namespace: caller_namespace, circular?: false))
+      expect(relations.first).to eq(double(:relation,
+                                           namespace: namespace,
+                                           caller_namespace: caller_namespace,
+                                           circular?: false))
 
       definitions = file.definitions
       expect(definitions.length).to eq(1)
@@ -46,35 +54,44 @@ describe Rubrowser::Data do
   end
 
   context 'Module depends on a class' do
-    let(:file_path) { 'spec/parser/fixtures/module_with_one_class_dependency.rb' }
-    let(:file_namespace) {:ModuleWithOneClassDependency}
-    let(:dependency_namespace) {:ClassWithNoRelations}
+    let(:file_path) do
+      'spec/parser/fixtures/module_with_one_class_dependency.rb'
+    end
+
+    let(:file_namespace) { :ModuleWithOneClassDependency }
+    let(:dependency_namespace) { :ClassWithNoRelations }
 
     it_behaves_like 'a relation'
   end
 
   context 'Class has one Mixin' do
     context 'included' do
-      let(:file_namespace) {:ClassWithOneIncludedMixin}
-      let(:dependency_namespace) {:ModuleWithNoRelations}
-      let(:file_path) { 'spec/parser/fixtures/class_with_one_included_mixin.rb' }
+      let(:file_namespace) { :ClassWithOneIncludedMixin }
+      let(:dependency_namespace) { :ModuleWithNoRelations }
+      let(:file_path) do
+        'spec/parser/fixtures/class_with_one_included_mixin.rb'
+      end
 
       it_behaves_like 'a relation'
     end
 
     context 'extended' do
-      let(:file_namespace) {:ClassWithOneExtendedMixin}
-      let(:dependency_namespace) {:ModuleWithNoRelations}
-      let(:file_path) { 'spec/parser/fixtures/class_with_one_extended_mixin.rb' }
+      let(:file_namespace) { :ClassWithOneExtendedMixin }
+      let(:dependency_namespace) { :ModuleWithNoRelations }
+      let(:file_path) do
+        'spec/parser/fixtures/class_with_one_extended_mixin.rb'
+      end
 
       it_behaves_like 'a relation'
     end
   end
 
   context 'Class depends on another class' do
-    let(:file_namespace) {:ClassWithOneClassDependency}
-    let(:dependency_namespace) {:ClassWithNoRelations}
-    let(:file_path) { 'spec/parser/fixtures/class_with_one_class_dependency.rb' }
+    let(:file_namespace) { :ClassWithOneClassDependency }
+    let(:dependency_namespace) { :ClassWithNoRelations }
+    let(:file_path) do
+      'spec/parser/fixtures/class_with_one_class_dependency.rb'
+    end
 
     it_behaves_like 'a relation'
   end

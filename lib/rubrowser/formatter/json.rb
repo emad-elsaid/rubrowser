@@ -10,7 +10,9 @@ module Rubrowser
       def call
         {
           definitions: data.definitions.map { |d| definition_as_json(d) },
-          relations: data.relations.map { |r| relation_as_json(r, data.definitions) }
+          relations: data.relations.map do |r|
+            relation_as_json(r, data.definitions)
+          end
         }.to_json
       end
 

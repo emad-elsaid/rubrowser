@@ -1,4 +1,4 @@
-require "bundler/gem_tasks"
+require 'bundler/gem_tasks'
 
 task :s do
   ruby './bin/rubrowser'
@@ -9,8 +9,5 @@ begin
 
   RSpec::Core::RakeTask.new(:spec)
 
-  task :default => :spec
-rescue LoadError
-  # no rspec available
+  task default: :spec
 end
-

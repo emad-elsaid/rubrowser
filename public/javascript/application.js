@@ -23,7 +23,7 @@ var parseGraph = function(data){
           id: group[0].id,
           type: group[0].type,
           lines: _(group).sumBy('lines'),
-            class: classForCircular(group[0])
+          class: classForCircular(group[0])
         };
       }).value(),
       namespaces = definitions.map(function(d){ return d.id; }),
