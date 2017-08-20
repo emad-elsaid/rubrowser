@@ -23,5 +23,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'bundler', '~> 1.14'
   s.add_development_dependency 'rake', '~> 10.0'
   s.add_development_dependency 'byebug'
+  s.add_development_dependency 'rubocop'
   s.add_development_dependency 'rspec'
 end
