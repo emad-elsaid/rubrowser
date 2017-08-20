@@ -5,7 +5,7 @@ d3.json("/data.json", function(error, data) {
 });
 
 var classForCircular = function(d) {
-  return d.circular ? 'circular' : ''
+  return d.circular ? 'circular' : '';
 }
 
 var parseGraph = function(data){
