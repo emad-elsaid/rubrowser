@@ -10,11 +10,25 @@ module Rubrowser
       parse
     end
 
-    def mark_circular_dependencies
-      mark_circular_components(components)
+    private
+
+    def parse
+      parsers.each(&:parse)
+
+      @definitions ||= parsers.map(&:definitions).reduce(:+).to_a
+      @relations ||= parsers.map(&:relations).reduce(:+).to_a
+
+      mark_circular_dependencies
     end
 
-    def mark_circular_components(components)
+    def parsers
+      @_parsers ||= files.map do |file|
+        Rubrowser::Parser::Factory.build(file)
+      end
+    end
+
+    def mark_circular_dependencies
+      components = make_components
       @definitions.each do |definition|
         if components.include?(definition.namespace.first.to_s)
           definition.set_circular
@@ -22,11 +36,11 @@ module Rubrowser
       end
 
       @relations.each do |relation|
-        relation.set_circular if components.include?(relation.namespace.to_s)
+        relation.set_circular if circular_relation?(components, relation)
       end
     end
 
-    def components
+    def make_components
       graph = Graph.new { |h, k| h[k] = [] }
 
       @relations.each do |relation|
@@ -45,7 +59,10 @@ module Rubrowser
         .to_set
     end
 
-    private
+    def circular_relation?(components, relation)
+      components.include?(relation.namespace.to_s) &&
+        components.include?(relation.caller_namespace.to_s)
+    end
 
     class Graph < Hash
       include TSort
@@ -59,20 +76,5 @@ module Rubrowser
 
     attr_reader :files, :parsed
     alias parsed? parsed
-
-    def parse
-      parsers.each(&:parse)
-
-      @definitions ||= parsers.map(&:definitions).reduce(:+).to_a
-      @relations ||= parsers.map(&:relations).reduce(:+).to_a
-
-      mark_circular_dependencies
-    end
-
-    def parsers
-      @_parsers ||= files.map do |file|
-        Rubrowser::Parser::Factory.build(file)
-      end
-    end
   end
 end

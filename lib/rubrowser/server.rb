@@ -2,7 +2,6 @@ require 'webrick'
 require 'erb'
 require 'rubrowser/data'
 require 'rubrowser/formatter/json'
-require 'byebug'
 
 module Rubrowser
   class Server < WEBrick::HTTPServer

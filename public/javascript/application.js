@@ -23,11 +23,11 @@ var parseGraph = function(data){
           id: group[0].id,
           type: group[0].type,
           lines: _(group).sumBy('lines'),
-          class: classForCircular(group[0])
+          circular: group[0].circular
         };
       }).value(),
       namespaces = definitions.map(function(d){ return d.id; }),
-      relations = data.relations.map(function(d){ return {source: d.caller, target: d.resolved_namespace, class: classForCircular(d)}; }),
+      relations = data.relations.map(function(d){ return {source: d.caller, target: d.resolved_namespace, circular: d.circular}; }),
       max_lines = _.maxBy(definitions, 'lines').lines,
       max_circle_r = 50;
 
@@ -63,7 +63,7 @@ var parseGraph = function(data){
         .selectAll("path")
         .data(relations)
         .enter().append("path")
-        .attr("class", function(d) { return 'link ' + d.class ; })
+        .attr("class", function(d) { return 'link test-relation ' + classForCircular(d); })
         .attr("marker-end", function(d){ return "url(#" + d.target.id + ")"; }),
       node = container.append("g")
         .attr("class", "nodes")
@@ -75,7 +75,7 @@ var parseGraph = function(data){
       circle = node
         .append("circle")
         .attr("r", function(d) { return d.lines / max_lines * max_circle_r + 6; })
-          .attr("class", function (d) { return d.class; }),
+        .attr("class", function (d) { return classForCircular(d) + " test-definition"; }),
       type = node
         .append("text")
         .attr("class", "type")

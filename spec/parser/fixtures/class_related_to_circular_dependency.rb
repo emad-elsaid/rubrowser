@@ -8,7 +8,7 @@ end
 
 class B
   def initialize
-    C.do
+    A.do
   end
 
   def self.do; end

@@ -1,4 +1,5 @@
 require 'rubrowser/data'
+require 'spec_helper'
 
 describe Rubrowser::Data do
   context 'There are dependencies' do
@@ -7,7 +8,7 @@ describe Rubrowser::Data do
         definition = double(:definition,
                             namespace: [file_namespace],
                             circular?: false)
-        file = Rubrowser::Data.new([File.expand_path(file_path)])
+        file = Rubrowser::Data.new([file_path])
 
         expect(file.relations).to eq([])
         expect(file.definitions).to eq([definition])
@@ -96,21 +97,33 @@ describe Rubrowser::Data do
     it_behaves_like 'a relation'
   end
 
-  context 'Circular dependency' do
-    context 'across classes' do
-      let(:file_path) { 'spec/parser/fixtures/classes_circular_dependency.rb' }
+  context 'When there are circular relations' do
+    let(:non_circular_index) { 2 }
 
-      it 'returns true' do
-        file = Rubrowser::Data.new([File.expand_path(file_path)])
+    let(:file_path) do
+      'spec/parser/fixtures/class_related_to_circular_dependency.rb'
+    end
 
-        definitions = file.definitions
-        expect(definitions.first.circular?).to eq(true)
-        expect(definitions.last.circular?).to eq(true)
+    let(:file) { Rubrowser::Data.new([file_path]) }
+    let(:definitions) { file.definitions }
+    let(:relations) { file.relations }
 
-        relations = file.relations
-        expect(relations.first.circular?).to eq(true)
-        expect(relations.last.circular?).to eq(true)
-      end
+    it 'marks relations that are circular' do
+      expect(relations[0].circular?).to eq(true)
+      expect(relations[1].circular?).to eq(true)
+    end
+
+    it 'does NOT mark non-circular relations near the circular relation' do
+      expect(relations[non_circular_index].circular?).to eq(false)
+    end
+
+    it 'marks definitions that are circular' do
+      expect(definitions[0].circular?).to eq(true)
+      expect(definitions[1].circular?).to eq(true)
+    end
+
+    it 'does NOT mark non-circular definition near the circular definition' do
+      expect(definitions[non_circular_index].circular?).to eq(false)
     end
   end
 end
