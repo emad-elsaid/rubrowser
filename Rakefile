@@ -1,13 +1,9 @@
 require 'bundler/gem_tasks'
 require 'rubocop/rake_task'
 require 'rspec/core/rake_task'
-require 'English'
 
-task :s do
+task :server do
   ruby './bin/rubrowser'
-end
-
-task all: %I[spec rubocop] do
 end
 
 RuboCop::RakeTask.new(:rubocop) do |t|
@@ -15,5 +11,8 @@ RuboCop::RakeTask.new(:rubocop) do |t|
 end
 
 RSpec::Core::RakeTask.new(:spec)
+
+task all: %I[spec rubocop] do
+end
 
 task default: :all
