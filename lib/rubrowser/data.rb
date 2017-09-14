@@ -1,5 +1,5 @@
 require 'rubrowser/parser/factory'
-require 'tsort'
+require 'rubrowser/graph'
 
 module Rubrowser
   class Data
@@ -64,17 +64,6 @@ module Rubrowser
         components.include?(relation.caller_namespace.to_s)
     end
 
-    class Graph < Hash
-      include TSort
-
-      alias tsort_each_node each_key
-
-      def tsort_each_child(node, &block)
-        fetch(node) { [] }.each(&block)
-      end
-    end
-
-    attr_reader :files, :parsed
-    alias parsed? parsed
+    attr_reader :files
   end
 end
