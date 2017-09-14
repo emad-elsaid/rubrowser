@@ -63,7 +63,7 @@ var parseGraph = function(data){
         .selectAll("path")
         .data(relations)
         .enter().append("path")
-        .attr("class", function(d) { return 'link test-relation ' + classForCircular(d); })
+        .attr("class", function(d) { return 'link ' + classForCircular(d); })
         .attr("marker-end", function(d){ return "url(#" + d.target.id + ")"; }),
       node = container.append("g")
         .attr("class", "nodes")
@@ -75,7 +75,7 @@ var parseGraph = function(data){
       circle = node
         .append("circle")
         .attr("r", function(d) { return d.lines / max_lines * max_circle_r + 6; })
-        .attr("class", function (d) { return classForCircular(d) + " test-definition"; }),
+        .attr("class", function (d) { return classForCircular(d) ; }),
       type = node
         .append("text")
         .attr("class", "type")
