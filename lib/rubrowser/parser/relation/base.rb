@@ -11,6 +11,7 @@ module Rubrowser
           @caller_namespace = caller_namespace
           @file = file
           @line = line
+          @is_circular = false
         end
 
         def namespace
@@ -21,6 +22,14 @@ module Rubrowser
           Definition::Base.new(@caller_namespace, file: file, line: line)
         end
 
+        def circular?
+          @is_circular
+        end
+
+        def set_circular
+          @is_circular = true
+        end
+
         def resolve(definitions)
           possibilities.find do |possibility|
             definitions.any? { |definition| definition == possibility }
@@ -29,7 +38,8 @@ module Rubrowser
 
         def ==(other)
           namespace == other.namespace &&
-            caller_namespace == other.caller_namespace
+            caller_namespace == other.caller_namespace &&
+            circular? == other.circular?
         end
 
         private

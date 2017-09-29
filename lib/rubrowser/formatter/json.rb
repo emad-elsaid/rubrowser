@@ -10,7 +10,9 @@ module Rubrowser
       def call
         {
           definitions: data.definitions.map { |d| definition_as_json(d) },
-          relations: data.relations.map { |r| relation_as_json(r, data.definitions) }
+          relations: data.relations.map do |r|
+            relation_as_json(r, data.definitions)
+          end
         }.to_json
       end
 
@@ -22,6 +24,7 @@ module Rubrowser
         {
           type: demoularize(definition.class.name),
           namespace: definition.to_s,
+          circular: definition.circular?,
           file: definition.file,
           line: definition.line,
           lines: definition.lines
@@ -35,6 +38,7 @@ module Rubrowser
           resolved_namespace: relation.resolve(definitions).to_s,
           caller: relation.caller_namespace.to_s,
           file: relation.file,
+          circular: relation.circular?,
           line: relation.line
         }
       end

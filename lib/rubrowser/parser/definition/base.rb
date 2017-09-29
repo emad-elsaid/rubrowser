@@ -9,6 +9,7 @@ module Rubrowser
           @file = file
           @line = line
           @lines = lines
+          @circular = false
         end
 
         def name
@@ -21,6 +22,14 @@ module Rubrowser
 
         def kernel?
           namespace.empty?
+        end
+
+        def circular?
+          @circular
+        end
+
+        def set_circular
+          @circular = true
         end
 
         def ==(other)

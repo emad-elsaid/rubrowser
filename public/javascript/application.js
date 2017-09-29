@@ -4,6 +4,10 @@ d3.json("/data.json", function(error, data) {
   $('.toolbox').show();
 });
 
+var classForCircular = function(d) {
+  return d.circular ? 'circular' : '';
+};
+
 var parseGraph = function(data){
   var svg = d3.select(".dependency_graph svg"),
       $svg = $('.dependency_graph svg'),
@@ -13,16 +17,17 @@ var parseGraph = function(data){
         .on("start", dragstarted)
         .on("drag", dragged)
       .on("end", dragended),
-      dup_definitions = data.definitions.map(function(d){ return {id: d.namespace, type: d.type, lines: d.lines }; }),
+      dup_definitions = data.definitions.map(function(d){ return {id: d.namespace, type: d.type, lines: d.lines, circular: d.circular }; }),
       definitions = _(dup_definitions).groupBy('id').map(function(group) {
         return {
           id: group[0].id,
           type: group[0].type,
-          lines: _(group).sumBy('lines')
+          lines: _(group).sumBy('lines'),
+          circular: group[0].circular
         };
       }).value(),
       namespaces = definitions.map(function(d){ return d.id; }),
-      relations = data.relations.map(function(d){ return {source: d.caller, target: d.resolved_namespace }; }),
+      relations = data.relations.map(function(d){ return {source: d.caller, target: d.resolved_namespace, circular: d.circular}; }),
       max_lines = _.maxBy(definitions, 'lines').lines,
       max_circle_r = 50;
 
@@ -58,7 +63,7 @@ var parseGraph = function(data){
         .selectAll("path")
         .data(relations)
         .enter().append("path")
-        .attr("class", 'link')
+        .attr("class", function(d) { return 'link ' + classForCircular(d); })
         .attr("marker-end", function(d){ return "url(#" + d.target.id + ")"; }),
       node = container.append("g")
         .attr("class", "nodes")
@@ -69,7 +74,8 @@ var parseGraph = function(data){
         .on("dblclick", dblclick),
       circle = node
         .append("circle")
-        .attr("r", function(d) { return d.lines / max_lines * max_circle_r + 6; }),
+        .attr("r", function(d) { return d.lines / max_lines * max_circle_r + 6; })
+        .attr("class", function (d) { return classForCircular(d) ; }),
       type = node
         .append("text")
         .attr("class", "type")
