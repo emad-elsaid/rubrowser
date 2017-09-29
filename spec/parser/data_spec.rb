@@ -8,6 +8,7 @@ describe Rubrowser::Data do
         file = Rubrowser::Data.new([file_path])
 
         expect(file.relations).to eq([])
+        expect(file.definitions.size).to eq(1)
         expect(file.definitions.first.circular?).to eq(false)
         expect(file.definitions.first.namespace).to eq([file_namespace])
       end
