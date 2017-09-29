@@ -5,13 +5,11 @@ describe Rubrowser::Data do
   context 'There are dependencies' do
     shared_examples_for 'an empty relation' do
       it 'returns an empty array' do
-        definition = double(:definition,
-                            namespace: [file_namespace],
-                            circular?: false)
         file = Rubrowser::Data.new([file_path])
 
         expect(file.relations).to eq([])
-        expect(file.definitions).to eq([definition])
+        expect(file.definitions.first.circular?).to eq(false)
+        expect(file.definitions.first.namespace).to eq([file_namespace])
       end
     end
 

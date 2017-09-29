@@ -33,7 +33,7 @@ module Rubrowser
         end
 
         def ==(other)
-          namespace == other.namespace && circular? == other.circular?
+          namespace == other.namespace
         end
 
         def to_s
