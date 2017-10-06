@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rubrowser (0.2.7)
+    rubrowser (0.3.0)
       parser (~> 2.3, >= 2.3.0)
 
 GEM
@@ -52,4 +52,4 @@ DEPENDENCIES
   rubrowser!
 
 BUNDLED WITH
-   1.14.6
+   1.15.2
