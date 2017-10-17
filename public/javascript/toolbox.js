@@ -81,6 +81,16 @@ $(document).on('change', '#ignore_by_namespace', function(){
     if(ignores_entries.length == 0){ return false; }
     return ignores.filter(function(i){ return d.id.indexOf(i) > -1; }).length > 0;
   });
+
+  var filtered_relations = rubrowser.relations.filter(function(d){
+      if(ignores_entries.length == 0){ return true; }
+      return ignores.filter(function(i){ return d.source.id.indexOf(i) > -1 || d.target.id.indexOf(i) > -1; }).length == 0;
+  })
+
+  rubrowser.simulation
+    .force("link")
+    .links(filtered_relations);
+
   rubrowser.link.classed('name_ignored', function(d){
     if(ignores_entries.length == 0){ return false; }
     return ignores.filter(function(i){ return d.source.id.indexOf(i) > -1 || d.target.id.indexOf(i) > -1; }).length > 0;

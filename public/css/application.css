@@ -45,8 +45,12 @@ text.type{
     font: 7px sans-serif;
 }
 
-.downlighted, .name_ignored, .type_ignored{
+.downlighted {
     opacity: 0.1;
+}
+
+.type_ignored, .name_ignored{
+    display: none;
 }
 
 .highlighted, .name_highlighted, .type_highlighted{
