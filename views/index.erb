@@ -3,14 +3,12 @@
   <head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
     <title>Rubrowser</title>
-    <link href='/css/application.css' media='all' rel='stylesheet'>
+    <link media='all' rel='stylesheet'>
+    <style><%= file('css/application.css') %></style>
   </head>
   <body>
     <div class='dependency_graph'>
       <svg></svg>
-      <div class="loading">
-        Parsing files...
-      </div>
     </div>
     <div class="toolbox">
       <div class="panel">
@@ -49,10 +47,13 @@
       </div>
     </div>
 
-    <script src='/javascript/lodash.js' type='text/javascript'></script>
-    <script src='/javascript/d3.js' type='text/javascript'></script>
-    <script src='/javascript/jquery.js' type='text/javascript'></script>
-    <script src='/javascript/application.js' type='text/javascript'></script>
-    <script src='/javascript/toolbox.js' type='text/javascript'></script>
+    <script src='https://unpkg.com/lodash@4.17.4/lodash.min.js' type='text/javascript'></script>
+    <script src='https://unpkg.com/d3@4.13.0/build/d3.min.js' type='text/javascript'></script>
+    <script src='https://unpkg.com/jquery@3.3.1/dist/jquery.min.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+     var data = <%= data %>
+    </script>
+    <script type='text/javascript'><%= file('javascript/application.js') %></script>
+    <script type='text/javascript'><%= file('javascript/toolbox.js') %></script>
   </body>
 </html>

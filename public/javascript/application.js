@@ -1,9 +1,3 @@
-d3.json("/data.json", function(error, data) {
-  parseGraph(data);
-  $('.loading').hide();
-  $('.toolbox').show();
-});
-
 var classForCircular = function(d) {
   return d.circular ? 'circular' : '';
 };
@@ -172,3 +166,5 @@ var parseGraph = function(data){
   };
   $(document).trigger('graph-rendered');
 };
+
+parseGraph(data);

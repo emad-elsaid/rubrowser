@@ -3,20 +3,14 @@ $LOAD_PATH.push File.expand_path('../../lib', __FILE__)
 
 require 'optparse'
 require 'rubrowser'
-require 'rubrowser/server'
+require 'rubrowser/renderer'
 
 options = {
-  port: 9000,
   files: ARGV.empty? ? ['.'] : ARGV
 }
 
 OptionParser.new do |opts|
   opts.banner = "Usage: #{__FILE__} [options] [file] ..."
-
-  message = 'Specify port number for server, default = 9000'
-  opts.on('-pPORT', '--port=PORT', message) do |port|
-    options[:port] = port.to_i
-  end
 
   opts.on('-v', '--version', 'Print Rubrowser version') do
     puts "Rubrowser #{Rubrowser::VERSION}"
@@ -29,4 +23,4 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-Rubrowser::Server.start(options)
+puts Rubrowser::Renderer.call(options)
