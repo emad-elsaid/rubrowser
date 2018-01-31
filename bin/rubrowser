@@ -6,11 +6,15 @@ require 'rubrowser'
 require 'rubrowser/renderer'
 
 options = {
-  files: ARGV.empty? ? ['.'] : ARGV
+  toolbox: true
 }
 
 OptionParser.new do |opts|
   opts.banner = "Usage: #{__FILE__} [options] [file] ..."
+
+  opts.on('-T', '--no-toolbox', 'Don\'t display toolbox on the page') do
+    options[:toolbox] = false
+  end
 
   opts.on('-v', '--version', 'Print Rubrowser version') do
     puts "Rubrowser #{Rubrowser::VERSION}"
@@ -22,5 +26,7 @@ OptionParser.new do |opts|
     exit
   end
 end.parse!
+
+options[:files] = ARGV.empty? ? ['.'] : ARGV
 
 puts Rubrowser::Renderer.call(options)

@@ -52,6 +52,7 @@ gem install rubrowser
 
 ```
 Usage: rubrowser [options] [file] ...
+    -T, --no-toolbox                 Don't display toolbox on the page
     -v, --version                    Print Rubrowser version
     -h, --help                       Prints this help
 ```

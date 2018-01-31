@@ -1,0 +1,36 @@
+<div class="toolbox">
+  <div class="panel">
+    <div class="title"> Node Details </div>
+    <div class="content" id="information_panel">
+      Please click on any node.
+    </div>
+  </div>
+  <div class="panel">
+    <div class="title"> Search </div>
+    <div class="content">
+      <label>Namespace</label>
+      <textarea id="highlight_by_namespace"></textarea>
+      <label><input type="checkbox" id="highlight_modules"/> Modules</label>
+      <label><input type="checkbox" id="highlight_classes"/> Classes</label>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="title"> Ignore </div>
+    <div class="content">
+      <label>Namespace</label>
+      <textarea id="ignore_by_namespace"></textarea>
+      <label><input type="checkbox" id="ignore_modules"/> Modules</label>
+      <label><input type="checkbox" id="ignore_classes"/> Classes</label>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="title"> Display </div>
+    <div class="content">
+      <input type="button" id="pause_simulation" value="Pause animation"/>
+      <label>Force Collide</label>
+      <input id="force_collide" type="range" value="80" min="0" max="500"/>
+      <label><input type="checkbox" id="hide_namespaces"/> Hide namespaces</label>
+      <label><input type="checkbox" id="hide_relations"/> Hide relations</label>
+    </div>
+  </div>
+</div>

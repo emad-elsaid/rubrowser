@@ -5,46 +5,44 @@ $(document).on('click', '.panel .title', function(){
 // --------------------------------
 // Details Panel
 // --------------------------------
-$(document).on('graph-rendered', function(){
-  rubrowser.node.on('click', function(d){
-    var namespace = d.id;
-    var lines = d.lines;
-    var dependents = rubrowser.relations.filter(function(i){ return i.target.id == namespace; });
-    var dependencies = rubrowser.relations.filter(function(i){ return i.source.id == namespace; });
-    var definitions = rubrowser.data.definitions.filter(function(i){ return i.namespace == namespace; });
-    var relations = rubrowser.data.relations.filter(function(i){ return i.resolved_namespace == namespace || i.caller == namespace; });
+rubrowser.node.on('click', function(d){
+  var namespace = d.id;
+  var lines = d.lines;
+  var dependents = rubrowser.relations.filter(function(i){ return i.target.id == namespace; });
+  var dependencies = rubrowser.relations.filter(function(i){ return i.source.id == namespace; });
+  var definitions = rubrowser.data.definitions.filter(function(i){ return i.namespace == namespace; });
+  var relations = rubrowser.data.relations.filter(function(i){ return i.resolved_namespace == namespace || i.caller == namespace; });
 
-    var content = $('<div>');
-    content.append('<label><strong>'+namespace+' ('+d.lines+' Lines)</strong></label>');
+  var content = $('<div>');
+  content.append('<label><strong>'+namespace+' ('+d.lines+' Lines)</strong></label>');
 
-    content.append('<strong>Defined in:</strong>');
-    var definitions_ol = $("<ol>");
-    for(var i=0; i<definitions.length; i++){
-      definitions_ol.append("<li>"+definitions[i].file+":"+definitions[i].line.toString()+"</li>");
+  content.append('<strong>Defined in:</strong>');
+  var definitions_ol = $("<ol>");
+  for(var i=0; i<definitions.length; i++){
+    definitions_ol.append("<li>"+definitions[i].file+":"+definitions[i].line.toString()+"</li>");
+  }
+  content.append(definitions_ol);
+
+  if( dependents.length > 0 ){
+    content.append('<strong>Dependents:</strong>');
+    var dependents_ol = $("<ol>");
+    for(var i=0; i<dependents.length; i++){
+      dependents_ol.append("<li>"+dependents[i].source.id+"</li>");
     }
-    content.append(definitions_ol);
+    content.append(dependents_ol);
+  }
 
-    if( dependents.length > 0 ){
-      content.append('<strong>Dependents:</strong>');
-      var dependents_ol = $("<ol>");
-      for(var i=0; i<dependents.length; i++){
-        dependents_ol.append("<li>"+dependents[i].source.id+"</li>");
-      }
-      content.append(dependents_ol);
+  if( dependencies.length > 0 ){
+    content.append('<strong>Dependencies:</strong>');
+    var dependencies_ol = $("<ol>");
+    for(var i=0; i<dependencies.length; i++){
+      dependencies_ol.append("<li>"+dependencies[i].target.id+"</li>");
     }
+    content.append(dependencies_ol);
+  }
 
-    if( dependencies.length > 0 ){
-      content.append('<strong>Dependencies:</strong>');
-      var dependencies_ol = $("<ol>");
-      for(var i=0; i<dependencies.length; i++){
-        dependencies_ol.append("<li>"+dependencies[i].target.id+"</li>");
-      }
-      content.append(dependencies_ol);
-    }
-
-    $('#information_panel').html(content);
-    return true;
-  });
+  $('#information_panel').html(content);
+  return true;
 });
 
 

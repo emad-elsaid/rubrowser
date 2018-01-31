@@ -6,6 +6,7 @@ module Rubrowser
   class Renderer
     # Accepted options are:
     # files: list of file paths to parse
+    # toolbox: bool, show/hide toolbox
     def self.call(options = {})
       new(options).call
     end
@@ -22,6 +23,11 @@ module Rubrowser
 
     def initialize(options)
       @files = options[:files]
+      @toolbox = options[:toolbox]
+    end
+
+    def toolbox?
+      @toolbox
     end
 
     def data
