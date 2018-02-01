@@ -52,6 +52,7 @@ gem install rubrowser
 
 ```
 Usage: rubrowser [options] [file] ...
+    -o, --output=FILE                output file page, if not specified output will be written to stdout
     -T, --no-toolbox                 Don't display toolbox on the page
     -v, --version                    Print Rubrowser version
     -h, --help                       Prints this help

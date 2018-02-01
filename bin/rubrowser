@@ -6,11 +6,16 @@ require 'rubrowser'
 require 'rubrowser/renderer'
 
 options = {
-  toolbox: true
+  toolbox: true,
+  output: STDOUT
 }
 
 OptionParser.new do |opts|
   opts.banner = "Usage: #{__FILE__} [options] [file] ..."
+
+  opts.on('-oFILE', '--output=FILE', 'output file page, if not specified output will be written to stdout') do |output|
+    options[:output] = output
+  end
 
   opts.on('-T', '--no-toolbox', 'Don\'t display toolbox on the page') do
     options[:toolbox] = false
@@ -29,4 +34,4 @@ end.parse!
 
 options[:files] = ARGV.empty? ? ['.'] : ARGV
 
-puts Rubrowser::Renderer.call(options)
+Rubrowser::Renderer.call(options)

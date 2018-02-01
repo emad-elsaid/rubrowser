@@ -12,18 +12,23 @@ module Rubrowser
     end
 
     def call
-      erb :index
+      output.write(erb(:index))
     end
 
     private
 
     include ERB::Util
 
-    attr_reader :files
+    attr_reader :files, :output
 
     def initialize(options)
+      @output = output_file(options[:output])
       @files = options[:files]
       @toolbox = options[:toolbox]
+    end
+
+    def output_file(path)
+      path.is_a?(String) ? File.open(path, 'w') : path
     end
 
     def toolbox?
