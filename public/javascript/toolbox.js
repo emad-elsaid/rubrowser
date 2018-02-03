@@ -1,4 +1,4 @@
-$(document).on('click', '.panel .title', function(){
+$(document).on('click', '.card-header', function(){
   $(this).siblings().toggle();
 });
 

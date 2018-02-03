@@ -1,36 +1,60 @@
 <div class="toolbox">
-  <div class="panel">
-    <div class="title"> Node Details </div>
-    <div class="content" id="information_panel">
+  <div class="card mt-2">
+    <div class="card-header">Node Details</div>
+    <div class="card-body" id="information_panel">
       Please click on any node.
     </div>
   </div>
-  <div class="panel">
-    <div class="title"> Search </div>
-    <div class="content">
-      <label>Namespace</label>
-      <textarea id="highlight_by_namespace"></textarea>
-      <label><input type="checkbox" id="highlight_modules"/> Modules</label>
-      <label><input type="checkbox" id="highlight_classes"/> Classes</label>
+  <div class="card mt-2">
+    <div class="card-header">Search</div>
+    <div class="card-body">
+      <label class="form-label">Namespace</label>
+      <textarea id="highlight_by_namespace" class="form-control" rows="5"></textarea>
+    </div>
+    <div class="card-body">
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="highlight_modules"/>
+        <label class="form-check-label">Modules</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="highlight_classes"/>
+        <label class="form-check-label">Classes</label>
+      </div>
     </div>
   </div>
-  <div class="panel">
-    <div class="title"> Ignore </div>
-    <div class="content">
+  <div class="card mt-2">
+    <div class="card-header">Ignore</div>
+    <div class="card-body">
       <label>Namespace</label>
-      <textarea id="ignore_by_namespace"></textarea>
-      <label><input type="checkbox" id="ignore_modules"/> Modules</label>
-      <label><input type="checkbox" id="ignore_classes"/> Classes</label>
+      <textarea id="ignore_by_namespace" class="form-control" rows="5"></textarea>
+    </div>
+    <div class="card-body">
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="ignore_modules"/>
+        <label class="form-check-label">Modules</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="ignore_classes"/>
+        <label class="form-check-label">Classes</label>
+      </div>
     </div>
   </div>
-  <div class="panel">
-    <div class="title"> Display </div>
-    <div class="content">
-      <input type="button" id="pause_simulation" value="Pause animation"/>
-      <label>Force Collide</label>
-      <input id="force_collide" type="range" value="80" min="0" max="500"/>
-      <label><input type="checkbox" id="hide_namespaces"/> Hide namespaces</label>
-      <label><input type="checkbox" id="hide_relations"/> Hide relations</label>
+  <div class="card mt-2">
+    <div class="card-header">Display</div>
+    <div class="card-body">
+      <input type="button" id="pause_simulation" class="btn btn-secondary btn-block" value="Pause animation"/>
+    </div>
+    <div class="card-body">
+      <label class="form-label">Force Collide</label>
+      <input id="force_collide" class="form-control" type="range" value="80" min="0" max="500"/>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="hide_namespaces"/>
+        <label class="form-check-label">Hide namespaces</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="hide_relations"/>
+        <label class="form-check-label">Hide relations</label>
+      </div>
     </div>
   </div>
 </div>

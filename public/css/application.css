@@ -3,7 +3,7 @@ html, body, .dependency_graph, .dependency_graph svg{
     height: 100%;
     padding: 0px;
     margin: 0px;
-    font: 10px sans-serif;
+    font-size: 13px;
 }
 
 .link {
@@ -65,56 +65,9 @@ text.type{
     top: 0px;
     left: 0px;
     max-height: 100%;
-    width: 200px;
+    width: 250px;
     background: white;
-    border-right: 1px solid #ddd;
     overflow: auto;
-}
-
-.panel .title{
-    padding: 10px;
-    font-weight: bold;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-bottom: 1px solid #ddd;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background: #eee;
-}
-
-.panel .title:hover{
-    background: #ddd;
-}
-
-.panel .content{
-    border-bottom: 1px solid #ddd;
-    padding: 5px;
-}
-
-.panel label{
-    display: block;
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
-
-.panel textarea{
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    height: 100px;
-    padding: 0px;
-    border: 1px solid #ddd
-}
-
-.panel input[type=button],
-.panel input[type=range],
-.panel button{
-    width: 100%;
-    max-width: 100%;
-    display: block;
 }
 
 ul, ol{
@@ -122,6 +75,5 @@ ul, ol{
     white-space: nowrap;
     margin: 0px;
     padding-left: 0px;
-    max-width: 100%;
     overflow: auto;
 }
