@@ -63,7 +63,9 @@ if you run it without any options
 ```
 rubrowser
 ```
-it'll analyze the current directory and print out an HTML file, so you can write it to a file, and open it in your browser
+
+it'll analyze the current directory and print out an HTML file, so you can write
+it to a file, and open it in your browser
 
 ```
 rubrowser > output.html
@@ -85,7 +87,10 @@ rubrowser > output.html
 * Module/class circle size on the graph will be relative to module number of
   lines in your code
 * cyclical dependencies are marked in red
-* after you move nodes around, you can download the layout as a file, then provide it when generating the graph file again with `-l file.json` it will embed the layout in the file and the graph will have the same layout by default.
+* after you move nodes around, you can download the layout as a file, then
+  provide it when generating the graph file again with `-l file.json` it will
+  embed the layout in the file and the graph will have the same layout by
+  default.
 
 ## Why?
 
