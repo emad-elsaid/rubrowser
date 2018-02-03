@@ -53,6 +53,7 @@ gem install rubrowser
 ```
 Usage: rubrowser [options] [file] ...
     -o, --output=FILE                output file page, if not specified output will be written to stdout
+    -l, --layout=FILE                layout file to apply on the resulting graph
     -T, --no-toolbox                 Don't display toolbox on the page
     -v, --version                    Print Rubrowser version
     -h, --help                       Prints this help
@@ -84,6 +85,7 @@ rubrowser > output.html
 * Module/class circle size on the graph will be relative to module number of
   lines in your code
 * cyclical dependencies are marked in red
+* after you move nodes around, you can download the layout as a file, then provide it when generating the graph file again with `-l file.json` it will embed the layout in the file and the graph will have the same layout by default.
 
 ## Why?
 

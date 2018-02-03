@@ -23,12 +23,18 @@ module Rubrowser
 
     def initialize(options)
       @output = output_file(options[:output])
+      @layout = options[:layout]
       @files = options[:files]
       @toolbox = options[:toolbox]
     end
 
     def output_file(path)
       path.is_a?(String) ? File.open(path, 'w') : path
+    end
+
+    def layout
+      return 'null' unless @layout
+      File.read(@layout)
     end
 
     def toolbox?

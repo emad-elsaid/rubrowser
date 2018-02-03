@@ -7,6 +7,7 @@ require 'rubrowser/renderer'
 
 options = {
   toolbox: true,
+  layout: nil,
   output: STDOUT
 }
 
@@ -15,6 +16,10 @@ OptionParser.new do |opts|
 
   opts.on('-oFILE', '--output=FILE', 'output file page, if not specified output will be written to stdout') do |output|
     options[:output] = output
+  end
+
+  opts.on('-lFILE', '--layout=FILE', 'layout file to apply on the resulting graph') do |layout|
+    options[:layout] = layout
   end
 
   opts.on('-T', '--no-toolbox', 'Don\'t display toolbox on the page') do

@@ -133,6 +133,35 @@ function transform(d) {
   return "translate(" + d.x + "," + d.y + ")";
 }
 
+var state = {
+  get: function(){
+    var positions = [];
+    rubrowser.definitions.forEach(function(elem){
+      if( elem.fx !== undefined && elem.fy !== undefined) {
+        positions.push({
+          id: elem.id,
+          x: elem.fx,
+          y: elem.fy
+        });
+      }
+    });
+    return positions;
+  },
+
+  set: function(layout){
+    if ( !layout ) { return; }
+    layout.forEach(function(pos) {
+      var definition = node.filter(function(e) { return e.id == pos.id; })
+      definition.classed("fixed", true);
+
+      var datum = definition.data()[0]
+      if( datum ) {
+        datum.fx = pos.x
+        datum.fy = pos.y
+      }
+    });
+  }
+}
 
 node.on('mouseover', function(d) {
   var relatives = [];
@@ -161,5 +190,8 @@ window.rubrowser = {
   relations: relations,
   simulation: simulation,
   node: node,
-  link: link
+  link: link,
+  state: state
 };
+
+rubrowser.state.set(layout);

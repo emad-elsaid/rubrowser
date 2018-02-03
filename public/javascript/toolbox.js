@@ -139,3 +139,15 @@ $(document).on('change', "#hide_namespaces", function(){
 $(document).on('click', "#pause_simulation", function(){
     rubrowser.simulation.stop();
 });
+
+$(document).on('click', "#download_layout", function(){
+  var json = JSON.stringify(rubrowser.state.get());
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(json));
+  element.setAttribute('download', 'layout.json');
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+});
