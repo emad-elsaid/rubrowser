@@ -71,6 +71,29 @@ it to a file, and open it in your browser
 rubrowser > output.html
 ```
 
+## Using a saved layout
+
+When you move classes/modules in the graph to fix them in one place, then you
+refresh the page, you'll reset the graph again.
+
+for that reason there is a button to download the current graph state as json file (fixed
+nodes positions), when you generate the graph again you can pass that file to
+rubrowser to embed it inside the output HTML file.
+
+```
+rubrowser -l layout.json
+```
+
+I recommend putting that file in your project and name it `.rubrowser` in that
+case it'll be easy to use it whenever you generate the graph.
+
+```
+rubrowser -l .rubrowser
+```
+
+So that in the future probably rubrowser can pick the file automatically, if you
+follow that naming, your project will be ready in that case.
+
 ## Features
 
 * interactive graph, you can pull any node to fix it to some position
