@@ -40,15 +40,22 @@ text.type{
     opacity: 0.1;
 }
 
-.type_ignored, .name_ignored{
+.ignored_by_type,
+.ignored_by_name{
     display: none;
 }
 
-.highlighted, .name_highlighted, .type_highlighted{
+.highlighted,
+.highlighted_by_namespace,
+.highlighted_by_path,
+.highlighted_by_type{
     fill: #008ef3;
 }
 
-.highlighted circle, .name_highlighted circle, .type_highlighted circle{
+.highlighted circle,
+.highlighted_by_namespace circle,
+.highlighted_by_path circle,
+.highlighted_by_type circle{
     stroke: #008ef3;
 }
 

@@ -10,13 +10,22 @@ var svg = d3.select(".dependency_graph svg"),
     .on("start", dragstarted)
     .on("drag", dragged)
     .on("end", dragended),
-    dup_definitions = data.definitions.map(function(d){ return {id: d.namespace, type: d.type, lines: d.lines, circular: d.circular }; }),
+    dup_definitions = data.definitions.map(function(d){
+      return {
+        id: d.namespace,
+        file: d.file,
+        type: d.type,
+        lines: d.lines,
+        circular: d.circular
+      };
+    }),
     definitions = _(dup_definitions).groupBy('id').map(function(group) {
       return {
         id: group[0].id,
         type: group[0].type,
         lines: _(group).sumBy('lines'),
-        circular: group[0].circular
+        circular: group[0].circular,
+        files: group.map(function(d){ return d.file; })
       };
     }).value(),
     namespaces = definitions.map(function(d){ return d.id; }),
