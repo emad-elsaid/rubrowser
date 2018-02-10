@@ -40,8 +40,7 @@ text.type{
     opacity: 0.1;
 }
 
-.ignored_by_type,
-.ignored_by_name{
+.ignored{
     display: none;
 }
 

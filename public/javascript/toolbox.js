@@ -85,51 +85,91 @@ $(document).on('change', '#highlight_modules, #highlight_classes', function(){
 // --------------------------------
 // Ignore Panel
 // --------------------------------
+var ignoring_functions = {};
+
+function updateNodes() {
+
+  function ignoreNode(d) {
+    return _(ignoring_functions).some(function(ignoring_function) {
+      return ignoring_function(d);
+    });
+  }
+
+  function notIgnoreNode(d){
+    return !ignoreNode(d);
+  }
+  function ignoreRelation(r){
+    return ignoreNode(r.source) || ignoreNode(r.target);
+  }
+
+  function notIgnoreRelation(r){
+    return !ignoreRelation(r);
+  }
+
+  var filtered_definitions = rubrowser.definitions.filter(notIgnoreNode);
+  rubrowser.simulation.nodes(filtered_definitions);
+  rubrowser.node.classed('ignored', ignoreNode);
+
+  var filtered_relations = rubrowser.relations.filter(notIgnoreRelation);
+  rubrowser.simulation.force("link").links(filtered_relations);
+  rubrowser.link.classed('ignored', ignoreRelation);
+}
+
 $(document).on('change', '#ignore_by_namespace', function(){
   var ignores_entries = $(this).val().trim();
   var ignores = ignores_entries.split("\n");
 
-  // filtering definitions
-  var filtered_definitions = rubrowser.definitions.filter(function(d){
-    if(ignores_entries.length == 0){ return true; }
-    return ignores.filter(function(i){ return d.id.indexOf(i) > -1; }).length == 0;
-  })
+  if(ignores_entries.length == 0){
+    delete ignoring_functions["ignore_by_name"];
+  }else{
+    ignoring_functions["ignore_by_name"] = function(d){
+      return ignores.some(function(i){ return d.id.indexOf(i) > -1; });
+    }
+  }
 
-  rubrowser.simulation
-    .nodes(filtered_definitions)
+  updateNodes();
+});
 
-  rubrowser.node.classed('ignored_by_name', function(d){
-    if(ignores_entries.length == 0){ return false; }
-    return ignores.filter(function(i){ return d.id.indexOf(i) > -1; }).length > 0;
-  });
+$(document).on('change', '#ignore_by_file_path', function(){
+  var ignores_entries = $(this).val().trim();
+  var ignores = ignores_entries.split("\n");
 
-  // filtering relations
-  var filtered_relations = rubrowser.relations.filter(function(d){
-      if(ignores_entries.length == 0){ return true; }
-      return ignores.filter(function(i){ return d.source.id.indexOf(i) > -1 || d.target.id.indexOf(i) > -1; }).length == 0;
-  })
+  if(ignores_entries.length == 0){
+    delete ignoring_functions["ignore_by_file_path"];
+  }else{
+    ignoring_functions["ignore_by_file_path"] = function(d){
+      return ignores.some(function(i){
+        return _(d.files).every(function(f){
+          return f.indexOf(i) > -1;
+        });
+      });
+    }
+  }
 
-  rubrowser.simulation
-    .force("link")
-    .links(filtered_relations);
-
-  rubrowser.link.classed('ignored_by_name', function(d){
-    if(ignores_entries.length == 0){ return false; }
-    return ignores.filter(function(i){ return d.source.id.indexOf(i) > -1 || d.target.id.indexOf(i) > -1; }).length > 0;
-  });
+  updateNodes();
 });
 
 $(document).on('change', '#ignore_modules, #ignore_classes', function(){
   var modules_ignored = $('#ignore_modules').is(':checked'),
       classes_ignored = $('#ignore_classes').is(':checked');
 
-  rubrowser.node.classed('ignored_by_type', function(d){
-    return (d.type == 'Module' && modules_ignored) || (d.type == 'Class' && classes_ignored);
-  });
-  rubrowser.link.classed('ignored_by_type', function(d){
-    return ((d.source.type == 'Module' && modules_ignored) || (d.source.type == 'Class' && classes_ignored)) ||
-      ((d.target.type == 'Module' && modules_ignored) || (d.target.type == 'Class' && classes_ignored));
-  });
+  if( modules_ignored ){
+    ignoring_functions["ignore_modules"] = function(d) {
+      return d.type == 'Module';
+    }
+  }else{
+    delete ignoring_functions["ignore_modules"];
+  }
+
+  if( classes_ignored ){
+    ignoring_functions["ignore_classes"] = function(d) {
+      return d.type == 'Class';
+    }
+  }else{
+    delete ignoring_functions["ignore_classes"];
+  }
+
+  updateNodes();
 });
 
 // --------------------------------

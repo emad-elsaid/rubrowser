@@ -101,6 +101,7 @@ follow that naming, your project will be ready in that case.
 * zoom and pan with mouse or touch pad
 * highlight node and all related nodes, it'll make it easier for you to see what
   depends and dependencies of certain class
+* highlight nodes by names or file path
 * ignore node by name, or file path
 * ignore nodes of certain type (modules/classes)
 * hide namespaces
