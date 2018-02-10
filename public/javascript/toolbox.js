@@ -194,6 +194,22 @@ $(document).on('click', "#pause_simulation", function(){
     rubrowser.simulation.stop();
 });
 
+$(document).on('click', "#fix_all", function(){
+  rubrowser.node.classed("fixed", true);
+  rubrowser.node.each(function(d){
+    d.fx = d.x;
+    d.fy = d.y;
+  });
+});
+
+$(document).on('click', "#release_all", function(){
+  rubrowser.node.classed("fixed", false);
+  rubrowser.node.each(function(d){
+    delete d["fx"];
+    delete d["fy"];
+  });
+});
+
 $(document).on('click', "#download_layout", function(){
   var json = JSON.stringify(rubrowser.state.get());
   var element = document.createElement('a');

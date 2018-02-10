@@ -108,6 +108,7 @@ follow that naming, your project will be ready in that case.
 * hide relations
 * change graph appearance (collision radius)
 * stop animation immediately
+* fix all nodes in position or release all fixed nodes
 * Module/class circle size on the graph will be relative to module number of
   lines in your code
 * cyclical dependencies are marked in red
