@@ -4,18 +4,19 @@ html, body, .dependency_graph, .dependency_graph svg{
     padding: 0px;
     margin: 0px;
     font-size: 13px;
+    overflow: hidden;
 }
 
 .link {
-  fill: none;
-  stroke: #666;
-  stroke-width: 1.5px;
+    fill: none;
+    stroke: #666;
+    stroke-width: 1.5px;
 }
 
 circle {
-  fill: #fff;
-  stroke: #333;
-  stroke-width: 1.5px;
+    fill: #fff;
+    stroke: #333;
+    stroke-width: 1.5px;
 }
 
 .circular {
@@ -23,13 +24,13 @@ circle {
 }
 
 .fixed circle {
-  stroke-width: 3px;
+    stroke-width: 3px;
 }
 
 text {
-  font: 10px sans-serif;
-  pointer-events: none;
-  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+    font: 10px sans-serif;
+    pointer-events: none;
+    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
 }
 
 text.type{
@@ -81,5 +82,26 @@ ul, ol{
     white-space: nowrap;
     margin: 0px;
     padding-left: 0px;
+    overflow: auto;
+}
+
+#information_panel{
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    height: 5rem;
+    background: rgba(255,255,255,0.8);
+    width: 100%;
+    margin-left: 250px;
+    padding-right: 250px;
+}
+
+#information_panel div{
+    margin: 1rem;
+    display: inline-block;
+}
+
+#information_panel:hover{
+    height: 33%;
     overflow: auto;
 }
