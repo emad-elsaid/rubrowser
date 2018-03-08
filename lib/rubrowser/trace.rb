@@ -1,6 +1,6 @@
 module Rubrowser
   class Trace
-    def initialize(path: "")
+    def initialize(path: '')
       @path = path
     end
 

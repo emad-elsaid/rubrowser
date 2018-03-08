@@ -5,3 +5,7 @@ Style/Documentation:
   Enabled: false
 Style/FrozenStringLiteralComment:
   Enabled: false
+Style/GlobalVars:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false

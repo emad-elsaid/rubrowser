@@ -5,7 +5,7 @@ module Rubrowser
     identified_by :id
 
     def connect
-      @id = rand(100000)
+      @id = rand(100_000)
       self.class.initiate_reader
     end
 

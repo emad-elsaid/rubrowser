@@ -34,8 +34,8 @@ module Rubrowser
     def rack_app
       @app ||= Rack::Builder.new do
         map '/' do
-          use LiteCable::Server::Middleware, connection_class: Rubrowser::Connection
-          run proc { |_| [200, { 'Content-Type' => 'text/plain' }, ['OK']] }
+          use LiteCable::Server::Middleware, connection_class: Connection
+          run(proc { |_| [200, { 'Content-Type' => 'text/plain' }, ['OK']] })
         end
       end
     end

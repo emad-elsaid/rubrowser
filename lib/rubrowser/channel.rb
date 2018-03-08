@@ -3,7 +3,7 @@ module Rubrowser
     identifier :classes
 
     def subscribed
-      stream_from "classes"
+      stream_from 'classes'
     end
   end
 end
