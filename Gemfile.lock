@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rubrowser (2.7.0)
+    rubrowser (2.7.1)
       litecable
       parser (~> 2.3, >= 2.3.0)
       puma
@@ -20,7 +20,7 @@ GEM
     parser (2.4.0.0)
       ast (~> 2.2)
     powerpack (0.1.1)
-    puma (3.11.2)
+    puma (3.11.3)
     rainbow (2.2.2)
       rake
     rake (10.4.2)
