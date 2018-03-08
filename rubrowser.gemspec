@@ -20,6 +20,10 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
 
   s.add_runtime_dependency 'parser', '~> 2.3', '>= 2.3.0'
+  s.add_runtime_dependency 'puma'
+  s.add_runtime_dependency 'litecable'
+  s.add_runtime_dependency 'websocket'
+
   s.add_development_dependency 'bundler', '~> 1.14'
   s.add_development_dependency 'rake', '~> 10.0'
   s.add_development_dependency 'byebug'

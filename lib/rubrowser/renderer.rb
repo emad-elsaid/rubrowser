@@ -19,11 +19,12 @@ module Rubrowser
 
     include ERB::Util
 
-    attr_reader :files, :output
+    attr_reader :files, :output, :server
 
     def initialize(options)
       @output = output_file(options[:output])
       @layout = options[:layout]
+      @server = options[:server]
       @files = options[:files]
       @toolbox = options[:toolbox]
     end

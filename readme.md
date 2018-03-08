@@ -51,9 +51,10 @@ gem install rubrowser
 
 
 ```
-Usage: rubrowser [options] [file] ...
+Usage: /home/emad/code/rubrowser/bin/rubrowser [options] [file] ...
     -o, --output=FILE                output file page, if not specified output will be written to stdout
     -l, --layout=FILE                layout file to apply on the resulting graph
+    -s, --server=SERVER:PORT         rubrowser server for execution monitoring
     -T, --no-toolbox                 Don't display toolbox on the page
     -v, --version                    Print Rubrowser version
     -h, --help                       Prints this help
@@ -69,6 +70,30 @@ it to a file, and open it in your browser
 
 ```
 rubrowser > output.html
+```
+
+## Monitoring your application execution
+
+Add rubrowser to your ruby project `Gemfile`
+```
+gem 'rubrowser'
+```
+
+Add the following code before your application runs, if it's a rails project
+this should be an initializer
+
+```
+Rubrowser::Monitor.run(path: Rails.root.to_s, port: 8080)
+```
+
+path is your code path, and port is the execution websocket server port, the
+server will open that port and announce any execution happens to the code inside
+your project directory.
+
+now generate a rubrowser HTML output that connect to your server
+
+```
+rubrowser -slocalhost:8080 > output.html
 ```
 
 ## Using a saved layout
@@ -96,6 +121,7 @@ follow that naming, your project will be ready in that case.
 
 ## Features
 
+* trace your execution in realtime on the graph
 * interactive graph, you can pull any node to fix it to some position
 * to release node double click on it
 * zoom and pan with mouse or touch pad

@@ -45,6 +45,11 @@ text.type{
     display: none;
 }
 
+.running circle{
+    stroke: #18b738;
+    fill: #7dea93;
+}
+
 .highlighted,
 .highlighted_by_namespace,
 .highlighted_by_path,

@@ -26,6 +26,12 @@ OptionParser.new do |opts|
     'layout file to apply on the resulting graph'
   ) { |layout| options[:layout] = layout }
 
+  opts.on(
+    '-sSERVER:PORT',
+    '--server=SERVER:PORT',
+    'rubrowser server for execution monitoring'
+  ) { |server| options[:server] = server }
+
   opts.on('-T', '--no-toolbox', 'Don\'t display toolbox on the page') do
     options[:toolbox] = false
   end

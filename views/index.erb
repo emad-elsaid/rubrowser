@@ -26,5 +26,12 @@
       <%= erb :toolbox %>
       <script type='text/javascript'><%= file('javascript/toolbox.js') %></script>
     <% end %>
+
+    <% if server %>
+      <script type='text/javascript'>
+       server = "ws://<%= server %>";
+       <%= file('javascript/websocket.js') %>
+      </script>
+    <% end %>
   </body>
 </html>
