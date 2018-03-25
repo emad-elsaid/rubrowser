@@ -1,4 +1,4 @@
-# Rubrowser
+# Rubrowser (Ruby Browser)
 
 [![Gem Version](https://badge.fury.io/rb/rubrowser.svg)](https://badge.fury.io/rb/rubrowser)
 [![Build Status](https://travis-ci.org/emad-elsaid/rubrowser.svg?branch=master)](https://travis-ci.org/emad-elsaid/rubrowser)
