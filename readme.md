@@ -17,7 +17,7 @@ documentation
 
 this project is so small that the visualization looks like so
 
-![rubrowser visualization](https://i.imgur.com/2tWrl2s.png)
+![rubrowser visualization](https://i.imgur.com/zKjc7G5.png)
 
 the idea is that the project opens every `.rb` file and parse it with `parser`
 gem then list all modules and classes definitions, and all constants that are
