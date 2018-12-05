@@ -3,3 +3,4 @@ pkg/
 .DS_Store
 .idea
 .byebug_history
+frontend/node_modules

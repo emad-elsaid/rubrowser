@@ -1,0 +1,37 @@
+{
+  "name": "rubrowser",
+  "version": "1.0.0",
+  "description": "Frontend for rubrowser",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc index.ts; browserify -p tinyify index.js -o ../public/javascript/application.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emad-elsaid/rubrowser.git"
+  },
+  "keywords": [
+    "ruby",
+    "graph",
+    "d3",
+    "visualization"
+  ],
+  "author": "Emad Elsaid",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/emad-elsaid/rubrowser/issues"
+  },
+  "homepage": "https://github.com/emad-elsaid/rubrowser#readme",
+  "dependencies": {
+    "@types/d3": "^5.0.1",
+    "@types/jquery": "^3.3.22",
+    "@types/lodash": "^4.14.118",
+    "browserify": "^16.2.3",
+    "d3": "^5.7.0",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.11",
+    "tinyify": "^2.5.0",
+    "typescript": "^3.2.1"
+  }
+}
