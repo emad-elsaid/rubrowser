@@ -12,7 +12,7 @@ options = {
 }
 
 OptionParser.new do |opts|
-  opts.banner = "Usage: #{__FILE__} [options] [file] ..."
+  opts.banner = "Usage: #{File.basename(__FILE__)} [options] [file] ..."
 
   opts.on(
     '-oFILE',
