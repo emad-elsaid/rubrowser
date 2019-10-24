@@ -51,7 +51,7 @@ gem install rubrowser
 
 
 ```
-Usage: /home/emad/code/rubrowser/bin/rubrowser [options] [file] ...
+Usage: rubrowser [options] [file] ...
     -o, --output=FILE                output file page, if not specified output will be written to stdout
     -l, --layout=FILE                layout file to apply on the resulting graph
     -s, --server=SERVER:PORT         rubrowser server for execution monitoring
