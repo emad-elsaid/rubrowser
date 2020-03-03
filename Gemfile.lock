@@ -21,7 +21,7 @@ GEM
     parser (2.4.0.0)
       ast (~> 2.2)
     powerpack (0.1.1)
-    puma (4.3.1)
+    puma (4.3.3)
       nio4r (~> 2.0)
     rainbow (2.2.2)
       rake
