@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.name        = 'rubrowser'
   s.version     = Rubrowser::VERSION
   s.authors     = ['Emad Elsaid']
-  s.email       = ['blazeeboy@gmail.com']
-  s.homepage    = 'https://github.com/blazeeboy/rubrowser'
+  s.email       = ['emad.elsaid.hamed@gmail.com']
+  s.homepage    = 'https://github.com/emad-elsaid/rubrowser'
   s.summary     = 'A ruby interactive dependency graph visualizer'
   s.description = 'A ruby interactive dependency graph visualizer'
   s.license     = 'MIT'
