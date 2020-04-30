@@ -56,6 +56,7 @@ Usage: rubrowser [options] [file] ...
     -l, --layout=FILE                layout file to apply on the resulting graph
     -s, --server=SERVER:PORT         rubrowser server for execution monitoring
     -T, --no-toolbox                 Don't display toolbox on the page
+    -j, --json                       Do export data as JSON instead of HTML
     -v, --version                    Print Rubrowser version
     -h, --help                       Prints this help
 ```
@@ -118,6 +119,13 @@ rubrowser -l .rubrowser
 
 So that in the future probably rubrowser can pick the file automatically, if you
 follow that naming, your project will be ready in that case.
+
+## Export data for use in external tools
+
+```
+rubrowser -j|jq '.'
+```
+
 
 ## Features
 

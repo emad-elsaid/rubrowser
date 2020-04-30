@@ -12,7 +12,11 @@ module Rubrowser
     end
 
     def call
-      output.write(erb(:index))
+      if @json
+        output.write(data)
+      else
+        output.write(erb(:index))
+      end
     end
 
     private
@@ -27,6 +31,7 @@ module Rubrowser
       @server = options[:server]
       @files = options[:files]
       @toolbox = options[:toolbox]
+      @json = !!options[:json]
     end
 
     def output_file(path)

@@ -36,6 +36,10 @@ OptionParser.new do |opts|
     options[:toolbox] = false
   end
 
+  opts.on('-j', '--json', 'Do export data as JSON instead of HTML') do
+    options[:json] = true
+  end
+
   opts.on('-v', '--version', 'Print Rubrowser version') do
     puts "Rubrowser #{Rubrowser::VERSION}"
     exit
