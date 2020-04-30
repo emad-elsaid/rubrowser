@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rubrowser (2.7.1)
+    rubrowser (2.8.0)
       litecable
       parser (~> 2.3, >= 2.3.0)
       puma
@@ -62,4 +62,4 @@ DEPENDENCIES
   rubrowser!
 
 BUNDLED WITH
-   1.16.1
+   1.17.2
