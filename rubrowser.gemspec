@@ -1,4 +1,4 @@
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'rubrowser/version'
 
@@ -19,13 +19,13 @@ Gem::Specification.new do |s|
   s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.require_paths = ['lib']
 
-  s.add_runtime_dependency 'parser', '~> 2.3', '>= 2.3.0'
+  s.add_runtime_dependency 'parser'
   s.add_runtime_dependency 'puma'
   s.add_runtime_dependency 'litecable'
   s.add_runtime_dependency 'websocket'
 
-  s.add_development_dependency 'bundler', '~> 1.14'
-  s.add_development_dependency 'rake', '~> 13.0'
+  s.add_development_dependency 'bundler'
+  s.add_development_dependency 'rake'
   s.add_development_dependency 'byebug'
   s.add_development_dependency 'rubocop'
   s.add_development_dependency 'rspec'
