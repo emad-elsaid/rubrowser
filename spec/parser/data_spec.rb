@@ -97,8 +97,6 @@ describe Rubrowser::Data do
   end
 
   context 'When there are circular relations' do
-    let(:non_circular_index) { 2 }
-
     let(:file_path) do
       'spec/parser/fixtures/class_related_to_circular_dependency.rb'
     end
@@ -113,16 +111,16 @@ describe Rubrowser::Data do
     end
 
     it 'does NOT mark non-circular relations near the circular relation' do
-      expect(relations[non_circular_index].circular?).to eq(false)
+      expect(relations[2].circular?).to eq(false)
     end
 
     it 'marks definitions that are circular' do
-      expect(definitions[0].circular?).to eq(true)
+      expect(definitions[2].circular?).to eq(true)
       expect(definitions[1].circular?).to eq(true)
     end
 
     it 'does NOT mark non-circular definition near the circular definition' do
-      expect(definitions[non_circular_index].circular?).to eq(false)
+      expect(definitions[0].circular?).to eq(false)
     end
   end
 end

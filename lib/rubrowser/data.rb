@@ -15,7 +15,7 @@ module Rubrowser
     def parse
       parsers.each(&:parse)
 
-      @definitions ||= parsers.map(&:definitions).reduce(:+).to_a
+      @definitions ||= parsers.map(&:definitions).reduce(:+).sort{|a,b| b<=>a}.to_a
       @relations ||= parsers.map(&:relations).reduce(:+).to_a
 
       mark_circular_dependencies

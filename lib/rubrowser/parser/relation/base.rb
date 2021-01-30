@@ -32,7 +32,7 @@ module Rubrowser
 
         def resolve(definitions)
           possibilities.find do |possibility|
-            definitions.any? { |definition| definition == possibility }
+            !!definitions.bsearch { |definition| definition <=> possibility }
           end || possibilities.last
         end
 

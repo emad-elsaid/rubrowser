@@ -36,6 +36,10 @@ module Rubrowser
           namespace == other.namespace
         end
 
+        def <=>(other)
+          to_s <=> other.to_s
+        end
+
         def to_s
           namespace.join('::')
         end
