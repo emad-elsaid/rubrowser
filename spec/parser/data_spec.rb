@@ -123,4 +123,20 @@ describe Rubrowser::Data do
       expect(definitions[0].circular?).to eq(false)
     end
   end
+
+
+  context 'Class with a constant' do
+    let(:file_path) do
+      'spec/parser/fixtures/class_with_constant.rb'
+    end
+
+    let(:file) { Rubrowser::Data.new([file_path]) }
+    let(:definitions) { file.definitions }
+    let(:relations) { file.relations }
+
+    it 'defines the constant as a definition' do
+      expect(definitions.size).to be(3)
+      expect(definitions[0].to_s).to be("A::B::C")
+    end
+  end
 end

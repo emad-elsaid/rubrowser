@@ -56,10 +56,16 @@ module Rubrowser
         return empty_result unless valid_node?(node)
 
         case node.type
-        when :module then parse_module(node, parents)
-        when :class then parse_class(node, parents)
-        when :const then parse_const(node, parents)
-        else parse_array(node.children, parents)
+        when :module then
+          parse_module(node, parents)
+        when :class then
+          parse_class(node, parents)
+        when :const then
+          parse_const(node, parents)
+        when :casgn then
+          parse_const_assignment(node, parents)
+        else
+          parse_array(node.children, parents)
         end
       end
 
@@ -90,6 +96,12 @@ module Rubrowser
         merge_constants(children_constants, constants)
       end
 
+      def parse_const_assignment(node, parents = [])
+        constant = ast_consts_assignment_to_array(node, parents)
+        definition = build_definition(Definition::Base, constant, node)
+        { definitions: [definition] }
+      end
+
       def parse_const(node, parents = [])
         constant = ast_consts_to_array(node)
         definition = Relation::Base.new(
@@ -117,8 +129,12 @@ module Rubrowser
 
       def ast_consts_to_array(node, parents = [])
         return parents unless valid_node?(node) &&
-                              %I[const cbase].include?(node.type)
+          %I[const cbase].include?(node.type)
         ast_consts_to_array(node.children.first, parents) + [node.children.last]
+      end
+
+      def ast_consts_assignment_to_array(node, parents = [])
+        parents + [node.children[1]]
       end
 
       def empty_result
