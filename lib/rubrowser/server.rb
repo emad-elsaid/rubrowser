@@ -1,7 +1,6 @@
 require 'lite_cable'
 require 'lite_cable/server'
-require 'puma/configuration'
-require 'puma/launcher'
+require 'puma'
 require 'rubrowser/connection'
 
 module Rubrowser
