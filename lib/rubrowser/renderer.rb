@@ -40,6 +40,7 @@ module Rubrowser
 
     def layout
       return 'null' unless @layout
+
       File.read(@layout)
     end
 

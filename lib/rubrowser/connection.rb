@@ -10,7 +10,7 @@ module Rubrowser
     end
 
     def self.initiate_reader
-      @reader ||= Thread.new do
+      @initiate_reader ||= Thread.new do
         $rd.each_line do |line|
           LiteCable.broadcast('classes', message: line.strip)
         end

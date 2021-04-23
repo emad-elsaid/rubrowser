@@ -4,7 +4,7 @@ module Rubrowser
   module Parser
     module Relation
       class Base
-        attr_reader :namespace, :caller_namespace, :file, :line
+        attr_reader :file, :line
 
         def initialize(namespace, caller_namespace, file: nil, line: nil)
           @namespace = namespace
@@ -32,7 +32,7 @@ module Rubrowser
 
         def resolve(definitions)
           possibilities.find do |possibility|
-            !!definitions.bsearch { |definition| definition <=> possibility }
+            !definitions.bsearch { |definition| definition <=> possibility }.nil?
           end || possibilities.last
         end
 

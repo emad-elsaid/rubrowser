@@ -1,3 +1,3 @@
 module Rubrowser
-  VERSION = '2.10'.freeze
+  VERSION = '2.11'.freeze
 end

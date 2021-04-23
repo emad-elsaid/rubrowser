@@ -15,14 +15,14 @@ module Rubrowser
     def parse
       parsers.each(&:parse)
 
-      @definitions ||= parsers.map(&:definitions).reduce(:+).sort{|a,b| b<=>a}.to_a
+      @definitions ||= parsers.map(&:definitions).reduce(:+).sort { |a, b| b <=> a }.to_a
       @relations ||= parsers.map(&:relations).reduce(:+).to_a
 
       mark_circular_dependencies
     end
 
     def parsers
-      @_parsers ||= files.map do |file|
+      @parsers ||= files.map do |file|
         Rubrowser::Parser::Factory.build(file)
       end
     end
@@ -30,9 +30,7 @@ module Rubrowser
     def mark_circular_dependencies
       components = make_components
       @definitions.each do |definition|
-        if components.include?(definition.namespace.first.to_s)
-          definition.set_circular
-        end
+        definition.set_circular if components.include?(definition.namespace.first.to_s)
       end
 
       @relations.each do |relation|

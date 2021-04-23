@@ -19,6 +19,7 @@ module Rubrowser
 
       def parse
         return unless valid_file?(file)
+
         constants = constants_from_file
 
         @definitions = constants[:definitions]
@@ -106,18 +107,19 @@ module Rubrowser
            .reduce { |a, e| merge_constants(a, e) }
       end
 
-      def merge_constants(c1, c2)
-        c1 ||= {}
-        c2 ||= {}
+      def merge_constants(const1, const2)
+        const1 ||= {}
+        const2 ||= {}
         {
-          definitions: c1[:definitions].to_a + c2[:definitions].to_a,
-          relations: c1[:relations].to_a + c2[:relations].to_a
+          definitions: const1[:definitions].to_a + const2[:definitions].to_a,
+          relations: const1[:relations].to_a + const2[:relations].to_a
         }
       end
 
       def ast_consts_to_array(node, parents = [])
         return parents unless valid_node?(node) &&
                               %I[const cbase].include?(node.type)
+
         ast_consts_to_array(node.children.first, parents) + [node.children.last]
       end
 

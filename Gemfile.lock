@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rubrowser (2.10)
+    rubrowser (2.11)
       litecable
       parser
       puma
