@@ -5,7 +5,7 @@ module Rubrowser
         attr_reader :namespace, :file, :line, :lines
 
         def initialize(namespace, file: nil, line: nil, lines: 0)
-          @namespace = Array(namespace)
+          @namespace = Array(namespace).compact
           @file = file
           @line = line
           @lines = lines

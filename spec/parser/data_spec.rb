@@ -123,4 +123,33 @@ describe Rubrowser::Data do
       expect(definitions[0].circular?).to eq(false)
     end
   end
+
+  context 'Fully qualified constants' do
+    let(:file_path) do
+      'spec/parser/fixtures/fully_qualified_constants.rb'
+    end
+
+    let(:file) { Rubrowser::Data.new([file_path]) }
+    let(:definitions) { file.definitions }
+    let(:relations) { file.relations }
+
+    it 'marks relations that are circular' do
+      expect(relations[1].circular?).to eq(true)
+      expect(relations[2].circular?).to eq(true)
+    end
+
+    it 'does NOT mark non-circular relations near the circular relation' do
+      expect(relations[0].circular?).to eq(false)
+      expect(relations[3].circular?).to eq(false)
+    end
+
+    it 'does NOT mark non-circular definition near the circular definition' do
+      expect(definitions[0].circular?).to eq(false)
+      expect(definitions[1].circular?).to eq(false)
+    end
+
+    it 'marks definitions that are circular' do
+      expect(definitions[2].circular?).to eq(true)
+    end
+  end
 end
